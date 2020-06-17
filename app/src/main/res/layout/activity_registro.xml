@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistroActivity">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/progressBar_registro"
+        android:indeterminate="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:textSize="26dp"
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CREAR UNA CUENTA"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:padding="15dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:id="@+id/foto_registro"
+                    android:src="@drawable/ic_add_a_photo_black_24dp"
+                    android:layout_gravity="center"
+                    android:padding="15dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:singleLine="true"
+                android:textSize="18dp"
+                android:paddingTop="25dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información Personal"
+                android:gravity="left"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="15dp"
+                    android:hint="Nombre">
+                    <EditText
+                        android:singleLine="true"
+                        android:id="@+id/nombre_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="15dp"
+                    android:hint="Apellido">
+                    <EditText
+                        android:singleLine="true"
+                        android:id="@+id/apellido_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:hint="Numero de celular">
+                <EditText
+                    android:singleLine="true"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/telefono_registro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:hint="Dirección de correo electrónico">
+                <EditText
+                    android:singleLine="true"
+                    android:id="@+id/correo_registro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <TextView-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Fecha de nacimiento *"-->
+<!--                android:textSize="15dp"/>-->
+<!--            <LinearLayout-->
+<!--                android:padding="15dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/spinner_dia_registro"-->
+<!--                    android:padding="3dp"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:scrollbarSize="30dp">-->
+
+<!--                </Spinner>-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/spinner_mes_registro"-->
+<!--                    android:padding="3dp"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:scrollbarSize="30dp">-->
+
+<!--                </Spinner>-->
+
+<!--                <Spinner-->
+<!--                    android:id="@+id/spinner_año_registro"-->
+<!--                    android:padding="3dp"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:scrollbarSize="30dp">-->
+
+<!--                </Spinner>-->
+
+<!--            </LinearLayout>-->
+
+<!--            <TextView-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Género*"-->
+<!--                android:textSize="15dp"/>-->
+<!--            <Spinner-->
+<!--                android:id="@+id/spinner_genero_registro"-->
+<!--                android:padding="15dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:scrollbarSize="30dp">-->
+
+<!--            </Spinner>-->
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:hint="Contraseña *">
+                <EditText
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:id="@+id/contraseña_registro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:hint="Confirmar contraseña *">
+                <EditText
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:id="@+id/contraseña_registro_confirmada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:onClick="aviso_privacidad"
+                    android:paddingLeft="15dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Aceptar Politicas de Privacidad y los Terminos y Condiciones *"
+                    android:textSize="15dp"/>
+
+                <CheckBox
+                    android:id="@+id/terminos_y_condiciones_registro"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/enviar_registro"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:text="ENVIAR"
+                android:textSize="20dp"/>
+            <TextView
+                android:paddingRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="*Campos obligatorios"
+                android:gravity="right"
+                android:layout_gravity="right"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

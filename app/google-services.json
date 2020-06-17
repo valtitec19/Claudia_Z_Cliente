@@ -1,0 +1,127 @@
+{
+  "project_info": {
+    "project_number": "83513642069",
+    "firebase_url": "https://clauzon.firebaseio.com",
+    "project_id": "clauzon",
+    "storage_bucket": "clauzon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83513642069:android:4039a87c4c1edd615b18dc",
+        "android_client_info": {
+          "package_name": "app.clauzon.clauzcliente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH3ZSlo-EZwR8rM7c6-G7VJNRUq0dM6Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83513642069:android:e3e0e089b4b29a585b18dc",
+        "android_client_info": {
+          "package_name": "com.clauzon.clauzcliente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH3ZSlo-EZwR8rM7c6-G7VJNRUq0dM6Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83513642069:android:c423cc699c62309f5b18dc",
+        "android_client_info": {
+          "package_name": "com.clauzon.clauzentregas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH3ZSlo-EZwR8rM7c6-G7VJNRUq0dM6Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83513642069:android:7becffb4447649be5b18dc",
+        "android_client_info": {
+          "package_name": "com.example.proyectoclauz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH3ZSlo-EZwR8rM7c6-G7VJNRUq0dM6Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83513642069-tagm8nvo1uav6eg3s14k385cn3ktf863.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.clauzon.clauzcliente">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/claudia"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/claudia"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.clauzon.clauzcliente.EntregaDomiciolioFinal"></activity>
+        <activity android:name="com.clauzon.clauzcliente.EditarPerfilActivity" />
+        <activity android:name="com.clauzon.clauzcliente.GarantiasActivity" />
+        <activity android:name="com.clauzon.clauzcliente.AvisoPrivacidadActivity" />
+        <activity android:name="com.clauzon.clauzcliente.HorarioEntregaActivity" />
+        <activity android:name="com.clauzon.clauzcliente.EnvioDomicilioActivity" />
+        <activity android:name="com.clauzon.clauzcliente.EstacionesActivity" />
+        <activity android:name="com.clauzon.clauzcliente.LineasActivity" />
+        <activity android:name="com.clauzon.clauzcliente.FavActivity" />
+        <activity android:name="com.clauzon.clauzcliente.FormaPagoActivity" />
+        <activity
+            android:name="com.clauzon.clauzcliente.CarritoActivity"
+            android:theme="@style/NoBar" />
+        <activity android:name="com.clauzon.clauzcliente.PagoActivity" />
+        <activity android:name="com.clauzon.clauzcliente.OrdenActivity" />
+        <activity android:name="com.clauzon.clauzcliente.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.clauzon.clauzcliente.RegistroActivity" />
+        <activity
+            android:name="com.clauzon.clauzcliente.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

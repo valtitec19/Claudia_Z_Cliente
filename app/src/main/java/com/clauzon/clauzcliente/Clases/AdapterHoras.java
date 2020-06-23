@@ -25,14 +25,16 @@ import java.util.List;
 public class AdapterHoras extends RecyclerView.Adapter<HolderHoras> implements View.OnClickListener{
     private List<String> lista=new ArrayList<>();
     private Context c;
-    private String id;
+    private String id,estacion,linea;
     private View.OnClickListener listener;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
-    public AdapterHoras(Context c,String id) {
+    public AdapterHoras(Context c,String id,String estacion, String linea) {
         this.c = c;
         this.id=id;
+        this.estacion=estacion;
+        this.linea=linea;
     }
 
     public void add_lista(String hora){
@@ -55,48 +57,69 @@ public class AdapterHoras extends RecyclerView.Adapter<HolderHoras> implements V
     public void onBindViewHolder(@NonNull final HolderHoras holder, final int position) {
         holder.getHora_r().setText(lista.get(position));
 
+
         holder.getHora_r().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(c);
-                builder.setTitle("Hora asignada");
-                builder.setMessage(lista.get(position));
-                builder.setCancelable(false);
-                builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                databaseReference.child("Rutas").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        holder.getHora_r().setTextColor(Color.GREEN);
-                        databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds :snapshot.getChildren()){
+                            final Ruta ruta =ds.getValue(Ruta.class);
+                            for(int i=0; i<ruta.getEstaciones().size();i++){
+                                if(estacion.equals(ruta.getEstaciones().get(i).getNombre()) && linea.equals(ruta.getEstaciones().get(i).getLinea())  && holder.getHora_r().getText().toString().equals(ruta.getEstaciones().get(i).getHora())){
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(c);
+                                    builder.setTitle("Hora asignada");
+                                    builder.setMessage(lista.get(position));
+                                    builder.setCancelable(false);
+                                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            holder.getHora_r().setTextColor(Color.GREEN);
+                                            databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    Pedidos pedidos = snapshot.getValue(Pedidos.class);
-                                    if (pedidos.getUsuario_id().equals(id) && pedidos.getEstado().equals("Carrito")) {
-                                        pedidos.setHora_entrega(lista.get(position));
-                                        databaseReference.child("Pedidos").child(pedidos.getId()).setValue(pedidos);
-                                        Toast.makeText(c, "Hora asignada: "+lista.get(position), Toast.LENGTH_SHORT).show();
+                                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                        Pedidos pedidos = snapshot.getValue(Pedidos.class);
+                                                        if (pedidos.getUsuario_id().equals(id) && pedidos.getEstado().equals("Carrito")) {
+                                                            pedidos.setHora_entrega(lista.get(position));
+                                                            pedidos.setRepartidor_id(ruta.getRepartidor());
+                                                            databaseReference.child("Pedidos").child(pedidos.getId()).setValue(pedidos);
+                                                            Toast.makeText(c, "Hora asignada: "+lista.get(position), Toast.LENGTH_SHORT).show();
 
-                                    }
+                                                        }
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    builder.create().show();
                                 }
-
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                        }
                     }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-                builder.create().show();
+
+
 
 
             }
@@ -106,6 +129,11 @@ public class AdapterHoras extends RecyclerView.Adapter<HolderHoras> implements V
     @Override
     public int getItemCount() {
         return lista.size();
+    }
+
+    public List<String> get_lista(){
+
+        return lista;
     }
 
     public void setOnClickListener(View.OnClickListener listener) {

@@ -45,8 +45,16 @@ public class LoginActivity extends AppCompatActivity {
         txt_pass = (EditText) findViewById(R.id.pass_login);
         btn_iniciar = (Button) findViewById(R.id.iniciar_login);
         btn_registrar = (Button) findViewById(R.id.registro_login);
-        Intent i = getIntent();
-        usuario = (Usuario) i.getSerializableExtra("user");
+        try {
+            Intent i = getIntent();
+            usuario = (Usuario) i.getSerializableExtra("user");
+        }catch (Exception e){
+
+        }
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null && currentUser.isEmailVerified()){
+            nextActivity();
+        }
         progressBar = (ProgressBar) findViewById(R.id.progress_circular_login);
         progressBar.setVisibility(View.GONE);
     }
@@ -74,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     private void nextActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra("user", usuario);
+        //Toast.makeText(this, usuario.getNombre(), Toast.LENGTH_SHORT).show();
         startActivity(intent);
         finish();
     }

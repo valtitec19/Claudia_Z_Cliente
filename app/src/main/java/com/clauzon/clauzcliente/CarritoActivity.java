@@ -8,20 +8,27 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.braintreepayments.cardform.view.PostalCodeEditText;
 import com.clauzon.clauzcliente.Clases.AdapterCarrito;
 import com.clauzon.clauzcliente.Clases.Estacion;
+import com.clauzon.clauzcliente.Clases.Metro;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Producto;
 import com.clauzon.clauzcliente.Clases.Usuario;
@@ -32,9 +39,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mercadopago.MercadoPago;
+import com.mercadopago.resources.datastructures.customer.card.Issuer;
+import com.mercadopago.resources.datastructures.customer.card.PaymentMethod;
+import com.sun.jersey.core.header.Token;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.services.network.UrlUtils;
+
+import static android.view.Window.FEATURE_INDETERMINATE_PROGRESS;
 
 public class CarritoActivity extends AppCompatActivity {
 

@@ -17,7 +17,16 @@
         android:roundIcon="@drawable/claudia"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.clauzon.clauzcliente.EntregaDomiciolioFinal"></activity>
+        <service
+            android:name="com.clauzon.clauzcliente.Servicios.FCM"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.clauzon.clauzcliente.EntregaDomiciolioFinal"/>
         <activity android:name="com.clauzon.clauzcliente.EditarPerfilActivity" />
         <activity android:name="com.clauzon.clauzcliente.GarantiasActivity" />
         <activity android:name="com.clauzon.clauzcliente.AvisoPrivacidadActivity" />

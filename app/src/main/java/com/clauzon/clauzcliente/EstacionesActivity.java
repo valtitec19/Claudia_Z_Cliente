@@ -58,6 +58,8 @@ public class EstacionesActivity extends AppCompatActivity {
             public void onClick(final View view) {
 
 
+
+
                 databaseReference=database.getReference("Usuarios/"+currentUser.getUid());
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -74,7 +76,7 @@ public class EstacionesActivity extends AppCompatActivity {
                                         pedidos.setDireccion_entrega(adapterEstacion.get_lista().get(recyclerView.getChildAdapterPosition(view)).getNombre()+", "+adapterEstacion.get_lista().get(recyclerView.getChildAdapterPosition(view)).getLinea());
                                         pedidos.setCosto_envio(0);
                                         pedidos.setHora_entrega("00:00");
-                                        pedidos.setRepartidor_id(adapterEstacion.get_lista().get(recyclerView.getChildAdapterPosition(view)).getRuta());
+                                        //pedidos.setRepartidor_id(adapterEstacion.get_lista().get(recyclerView.getChildAdapterPosition(view)).getRuta());
                                         databaseReference1.child(pedidos.getId()).setValue(pedidos);
                                     }
                                 }

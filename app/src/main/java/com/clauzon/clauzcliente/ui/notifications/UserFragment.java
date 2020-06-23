@@ -25,6 +25,8 @@ import com.clauzon.clauzcliente.FavActivity;
 import com.clauzon.clauzcliente.FormaPagoActivity;
 import com.clauzon.clauzcliente.LoginActivity;
 import com.clauzon.clauzcliente.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -51,14 +55,13 @@ public class UserFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+        notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_user, container, false);
         mAuth = FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         currentUser=mAuth.getCurrentUser();
         databaseReference=database.getReference();
-        Log.e("Usuairo!!!!"    , currentUser.getUid() );
+
         boton_config=(Button)root.findViewById(R.id.editar_perfil);
         cargar_datos();
         btn_forma_pago=(Button)root.findViewById(R.id.formas_de_pago);
@@ -85,7 +88,6 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Usuario usuario=dataSnapshot.getValue(Usuario.class);
-                        Log.e("A VERE   ", String.valueOf(usuario.getFavoritos().size()) );
                         if(usuario.getFavoritos().size()==0){
                             Toast.makeText(getContext(), "No tienes productos favoritos", Toast.LENGTH_SHORT).show();
                         }else{
@@ -108,7 +110,6 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final Usuario usuario=dataSnapshot.getValue(Usuario.class);
-                        Log.e("A VERE   ", String.valueOf(usuario.getFavoritos().size()) );
                         if(usuario.getPedidos().size()==0){
                             Toast.makeText(getContext(), "No tienes pedidos en tu carrito", Toast.LENGTH_SHORT).show();
                         }else{
@@ -147,10 +148,32 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                borrar_token_dispositivo();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
         return root;
+    }
+
+    private void borrar_token_dispositivo() {
+
+        if(currentUser!=null && currentUser.isEmailVerified()){
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w("TAG", "getInstanceId failed", task.getException());
+                                return;
+                            }
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+                            DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("token").child(currentUser.getUid());
+                            reference.removeValue();
+
+                        }
+                    });
+        }
     }
 
     public void cargar_datos(){

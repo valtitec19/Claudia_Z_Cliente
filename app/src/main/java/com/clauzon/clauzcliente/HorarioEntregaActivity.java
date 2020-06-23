@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -98,9 +99,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_horarios_disponibles);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapterHoras = new AdapterHoras(this,currentUser.getUid());
-
-        recyclerView.setHasFixedSize(true);
+        adapterHoras = new AdapterHoras(this,currentUser.getUid(),estacion,linea);
         databaseReference.child("Rutas").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -111,6 +110,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                         if(ruta.getEstaciones().get(i).getNombre().equals(estacion)){
                             if(linea.equals(ruta.getEstaciones().get(i).getLinea())){
                                 adapterHoras.add_lista(ruta.getEstaciones().get(i).getHora());
+
                             }
 
                         }
@@ -138,6 +138,9 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 
             }
         });
+
+        recyclerView.setHasFixedSize(true);
+
 
         recyclerView.setAdapter(adapterHoras);
 
@@ -177,6 +180,26 @@ public class HorarioEntregaActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    //metodo para resetear repartidor y hora de entrega en caso de no conluir el pedido
+//    public void reset_pedido(){
+//        databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for(DataSnapshot ds : snapshot.getChildren()){
+//                    Pedidos pedidos = ds.getValue(Pedidos.class);
+//                    if(pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")){
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     public void inicio_view() {
         reloj=(RadioButton) findViewById(R.id.radio_button_reloj);
@@ -244,12 +267,13 @@ public class HorarioEntregaActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (efectivo.isChecked()) {
-
+//Pedido con pago en efectivo, entrega en el metro
                     databaseReference.child("Usuarios/"+currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             final Usuario usuario=dataSnapshot.getValue(Usuario.class);
                             if(usuario.getMultas()>0){
+                                //Si tiene multa no permite el pago en efectivo, solo tarjeta
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this);
                                 builder.setTitle("Lo lamento tienes una multa por cancelación");
                                 builder.setMessage("Debes cubrir la multa para habilitar pago en efectivo");
@@ -270,7 +294,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                 });
                                 builder.create().show();
                             }else{
-
+                                //si se permite el pago en efectivo se elige la hora de entrega
                                 databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -314,6 +338,8 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                                                     builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            //Enviar notificacion
+
                                                                             startActivity(new Intent(HorarioEntregaActivity.this, MainActivity.class));
                                                                             finish();
                                                                         }

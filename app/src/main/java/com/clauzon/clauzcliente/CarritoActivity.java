@@ -85,7 +85,7 @@ public class CarritoActivity extends AppCompatActivity {
     private Boolean tipo_envio;
     float costo2=0;
     private String descripcion_final;
-    CharSequence[] values = {"$150 (Un dia despues) "," $120 (Dos dia despues)"," $100 (Tres dia despues)"};
+    CharSequence[] values = {"$150 Un día despues (Solo CDMX) "," $120 Correos de México (5-7 días hábiles)"," $250 FedEX (1-3 días hábiles)"};
     AlertDialog alertDialog1;
     String linea="";
     String linea2="";
@@ -337,7 +337,7 @@ public class CarritoActivity extends AppCompatActivity {
                         break;
                     case 2:
 
-                        asginar_tipo_endio(100);
+                        asginar_tipo_endio(250);
                         break;
                 }
                 alertDialog1.dismiss();
@@ -356,8 +356,38 @@ public class CarritoActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Pedidos pedidos=ds.getValue(Pedidos.class);
                     if(pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")){
-                        pedidos.setCosto_envio(costo_envio);
-                        databaseReference.child("Pedidos").child(pedidos.getId()).setValue(pedidos);
+                        int temp=pedidos.getDireccion_entrega().length();
+                        String ciudad= pedidos.getDireccion_entrega().substring(temp-4,temp);
+//                        Log.e("Ciudad", ciudad );
+                        if(!ciudad.equals("CDMX") && costo_envio==150){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CarritoActivity.this);
+                            builder.create();
+                            builder.setTitle("Opción de envío no valida");
+                            builder.setMessage("El envío al día siguiente solo está disponible en la CDMX");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    CreateAlertDialogWithRadioButtonGroup();
+                                }
+                            });
+                            builder.setNegativeButton("Nueva dirección", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent in = new Intent(CarritoActivity.this, EnvioDomicilioActivity.class);
+                                    //in.putExtra("id_pedido",id_pedido);
+                                    startActivity(in);
+                                    finish();
+                                }
+                            });
+                            builder.show();
+                        }else {
+                            pedidos.setCosto_envio(costo_envio);
+                            databaseReference.child("Pedidos").child(pedidos.getId()).setValue(pedidos);
+                            recuperar_datos();
+                            startActivity(new Intent(CarritoActivity.this,CarritoActivity.class));
+                        }
+
 
                     }
                 }
@@ -368,8 +398,7 @@ public class CarritoActivity extends AppCompatActivity {
 
             }
         });
-        recuperar_datos();
-        startActivity(new Intent(CarritoActivity.this,CarritoActivity.class));
+
     }
 
     public void firebaseON() {

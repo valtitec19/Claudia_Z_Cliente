@@ -171,4 +171,36 @@ public class LoginActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
     }
+
+    public void olvide_password(View view) {
+        if(isValidEmail(txt_correo.getText().toString())){
+            databaseReference.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        Usuario usuario = ds.getValue(Usuario.class);
+                        if(usuario.getCorreo().equals(txt_correo.getText().toString())){
+                            mAuth.sendPasswordResetEmail(txt_correo.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(LoginActivity.this, "Se envío un enlace para restablecer tu contraseña al correo que registraste.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }else {
+                            Toast.makeText(LoginActivity.this, "El correo no existe", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }else {
+            txt_correo.setError("Ingrese un correo valido");
+        }
+    }
 }

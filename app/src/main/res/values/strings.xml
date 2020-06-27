@@ -97,17 +97,51 @@
 
 
     <string-array name="costos_envio">
-        <item>Un dia despues. ($150)</item>
-        <item>Dos dias despues. ($120)</item>
-        <item>Tres dias despues. ($100)</item>
+        <item>Un día despues (Solo CDMX). ($150)</item>
+        <item>Correos de México 5-7 días hábiles. ($120)</item>
+        <item>FedEX 1-3 días hábiles. ($250)</item>
     </string-array>
 
     <string-array name="ubicacion_entrega">
         <item>Lugar de entrega</item>
         <item>Bajo el reloj</item>
-        <item>Torniquetes</item>
     </string-array>
 
+
+    <string-array name="Ciudades">
+        <item>Aguascalientes</item>
+        <item>Baja California</item>
+        <item>Baja California Sur</item>
+        <item>Campeche</item>
+        <item>Chiapas</item>
+        <item>Chihuahua</item>
+        <item>Coahuila</item>
+        <item>Colima</item>
+        <item>CDMX</item>
+        <item>Durango</item>
+        <item>Estado de México</item>
+        <item>Guanajuato</item>
+        <item>Guerrero</item>
+        <item>Hidalgo</item>
+        <item>Jalisco</item>
+        <item>Michoacán</item>
+        <item>Morelos</item>
+        <item>Nayarit</item>
+        <item>Nuevo León</item>
+        <item>Oaxaca</item>
+        <item>Puebla</item>
+        <item>Querétaro</item>
+        <item>Quintana Roo</item>
+        <item>San Luis Potosí</item>
+        <item>Sinaloa</item>
+        <item>Sonora</item>
+        <item>Tabasco</item>
+        <item>Tamaulipas</item>
+        <item>Tlaxcala</item>
+        <item>Veracruz</item>
+        <item>Yucatán</item>
+        <item>Zacatecas</item>
+    </string-array>
 
     <string-array name="Metodo_de_pago">
         <item>Un dia despues. ($150)</item>

@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,6 +20,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.clauzon.clauzcliente.Clases.AdapterHoras;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Producto;
@@ -32,11 +39,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class HorarioEntregaActivity extends AppCompatActivity {
 
@@ -53,7 +65,6 @@ public class HorarioEntregaActivity extends AppCompatActivity {
     String product = "";
     float cost;
     String hora, ubicacion_entrega;
-    Calendar calendar;
     String fecha;
     Date mañana;
     Date fecha_final;
@@ -61,6 +72,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterHoras adapterHoras;
     private String estacion,linea;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,8 +214,8 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 //    }
 
     public void inicio_view() {
-        reloj=(RadioButton) findViewById(R.id.radio_button_reloj);
-        torniquetes=(RadioButton) findViewById(R.id.radio_butos_torniquetes);
+//        reloj=(RadioButton) findViewById(R.id.radio_button_reloj);
+//        torniquetes=(RadioButton) findViewById(R.id.radio_butos_torniquetes);
         productos = (TextView) findViewById(R.id.productos_final_entrega);
         costo = (TextView) findViewById(R.id.costo_final_entrefa);
         descrcipcion = (TextView) findViewById(R.id.descripcion_final);
@@ -302,11 +314,12 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                             final Pedidos pedidos = snapshot.getValue(Pedidos.class);
                                             if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
 
-                                                if(reloj.isChecked()){
-                                                    pedidos.setDescripcion(reloj.getText().toString());
-                                                }else {
-                                                    pedidos.setDescripcion(torniquetes.getText().toString());
-                                                }
+                                                pedidos.setDescripcion("Área de taquillas");
+//                                                if(reloj.isChecked()){
+//                                                    pedidos.setDescripcion(reloj.getText().toString());
+//                                                }else {
+//                                                    pedidos.setDescripcion(torniquetes.getText().toString());
+//                                                }
                                                 //pedidos.setHora_entrega("");
                                                 pedidos.setFecha(fecha);
 
@@ -340,6 +353,23 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                                                         public void onClick(DialogInterface dialogInterface, int i) {
                                                                             //Enviar notificacion
 
+
+                                                                            databaseReference.child("token/"+pedidos.getRepartidor_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                @Override
+                                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                                    String token = snapshot.getValue(String.class);
+                                                                                    String dia=mañana.toString().substring(8,10);
+                                                                                    String mes=pedidos.getFecha().substring(5,7);
+                                                                                    Log.e("MES ", mes );
+                                                                                    enviar_notificacion(token,"Tienes una nueva entrega para el día "+dia+" "+get_mes(mes),"A las "+pedidos.getHora_entrega()+" en "+pedidos.getDireccion_entrega()+" en el área de "+pedidos.getDescripcion(), pedidos.getFoto());
+                                                                                    //Log.e("Token para notificar", token );
+                                                                                }
+
+                                                                                @Override
+                                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                                }
+                                                                            });
                                                                             startActivity(new Intent(HorarioEntregaActivity.this, MainActivity.class));
                                                                             finish();
                                                                         }
@@ -379,6 +409,22 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                     });
 
                 } else if (tarjeta.isChecked()) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this,R.style.AlertDialogStyle);
+                    builder.setTitle("Pago con tarjeta no disponible");
+                    builder.setMessage("¡Espera esta opción muy pronto!");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            efectivo.setChecked(true);
+                            tarjeta.setChecked(false);
+
+                        }
+                    });
+                    builder.create().show();
+
+                    /*Tarjeta desactivada temporalmente
                     double temp= Float.parseFloat(amount)*0.97;
                     amount=String.valueOf(temp);
                     databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -394,11 +440,12 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 ////                                        pedidos.setHora_entrega("00:00");
 //                                    }
                                     pedidos.setFecha(fecha);
-                                    if(reloj.isChecked()){
-                                        pedidos.setDescripcion(reloj.getText().toString());
-                                    }else {
-                                        pedidos.setDescripcion(torniquetes.getText().toString());
-                                    }
+                                    pedidos.setDescripcion("Área de taquillas");
+//                                    if(reloj.isChecked()){
+//                                        pedidos.setDescripcion(reloj.getText().toString());
+//                                    }else {
+//                                        pedidos.setDescripcion(torniquetes.getText().toString());
+//                                    }
                                     DatabaseReference databaseReference2 = database.getReference();
                                     databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
                                     if(pedidos.getHora_entrega().equals("00:00")){
@@ -414,12 +461,92 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
+                    });*/
 
                 }
 
             }
         });
+    }
+
+    private String get_mes(String numero) {
+        String mes="";
+        if(numero.equals("01")){
+            mes="enero";
+        }
+        if(numero.equals("02")){
+            mes="febrero";
+        }
+        if(numero.equals("03")){
+            mes="marzo";
+        }
+        if(numero.equals("04")){
+            mes="abril";
+        }
+        if(numero.equals("05")){
+            mes="mayo";
+        }
+        if(numero.equals("06")){
+            mes="junio";
+        }
+        if(numero.equals("07")){
+            mes="julio";
+        }
+        if(numero.equals("08")){
+            mes="agosto";
+        }
+        if(numero.equals("09")){
+            mes="septiembre";
+        }
+        if(numero.equals("10")){
+            mes="octubre";
+        }
+        if(numero.equals("11")){
+            mes="noviembre";
+        }
+        if(numero.equals("12")){
+            mes="diciembre";
+        }
+        return  mes;
+    }
+
+    private void enviar_notificacion(String token,String titulo, String detalle,String imagen) {
+        RequestQueue mRequestQue = Volley.newRequestQueue(this);
+
+        JSONObject json = new JSONObject();
+        try {
+
+            json.put("to", token);
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("titulo", titulo);
+            notificationObj.put("detalle", detalle);
+            notificationObj.put("imagen",imagen);
+
+
+
+            //replace notification with data when went send data
+            json.put("data", notificationObj);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json,null,null) {
+
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=AAAAE3HNDFU:APA91bEmPKbwtdaQIrU9g2GmxBEwy7zqHzdwG-L3I7o6HzrKhJ5BupTBTqhN67ytbObOv_NUILcDMaG-HwCLi2tEFKDwOWShs14ZOGpWZOh2DJNhxwjAQIfPtWgn7sxWuDR9VfT4uPQW");
+                    return header;
+                }
+            };
+
+
+            mRequestQue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void recuperda_pedidos() {

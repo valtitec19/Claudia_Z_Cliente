@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -13,7 +14,9 @@ import com.clauzon.clauzcliente.MainActivity;
 import com.clauzon.clauzcliente.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class FCM extends FirebaseMessagingService {
@@ -32,12 +35,13 @@ public class FCM extends FirebaseMessagingService {
         if(remoteMessage.getData().size()>0){
             String titulo = remoteMessage.getData().get("titulo");
             String detalle = remoteMessage.getData().get("detalle");
-            notificacion_mayor_oreo(titulo,detalle);
+            String imagen = remoteMessage.getData().get("imagen");
+            notificacion_mayor_oreo(titulo,detalle,imagen);
         }
 
     }
 
-    private void notificacion_mayor_oreo(String titulo, String detalle) {
+    private void notificacion_mayor_oreo(String titulo, String detalle,String imagen) {
         String id ="mensaje";
 
         NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -47,17 +51,25 @@ public class FCM extends FirebaseMessagingService {
             channel.setShowBadge(true);
             manager.createNotificationChannel(channel);
         }
-        builder.setAutoCancel(true)
-                .setWhen(System.currentTimeMillis())
-                .setContentTitle(titulo)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText(detalle)
-                .setContentInfo("nuevo")
-                .setContentIntent(click_notificacion());
+        try {
+            Bitmap picasso = Picasso.with(getApplicationContext()).load(imagen).get();
 
-        Random random=new Random();
-        int id_notify=random.nextInt(8000);
-        manager.notify(id_notify,builder.build());
+            builder.setAutoCancel(true)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle(titulo)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText(detalle)
+                    .setContentInfo("nuevo")
+                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(picasso).bigLargeIcon(null))
+
+                    .setContentIntent(click_notificacion());
+
+            Random random=new Random();
+            int id_notify=random.nextInt(8000);
+            manager.notify(id_notify,builder.build());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

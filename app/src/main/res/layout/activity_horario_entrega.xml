@@ -100,43 +100,60 @@
                     android:layout_height="wrap_content"/>
             </RadioGroup>
 
-            <TextView
-
-                android:textColor="@color/colorAccent"
-                android:padding="5dp"
-                android:textSize="20dp"
-                android:layout_gravity="center"
-                android:gravity="center"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ayuda a nuestros repartidores a encontrarte!"/>
+                android:layout_height="wrap_content">
+                <TextView
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:checked="true"
-                    android:textStyle="bold"
-                    android:textColor="@color/rojo"
-                    android:id="@+id/radio_button_reloj"
-                    android:textSize="18dp"
-                    android:text="Bajo el reloj"
+                    android:textColor="@color/colorAccent"
+                    android:padding="5dp"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:layout_height="wrap_content"/>
-                <RadioButton
-                    android:textStyle="bold"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:text="Nuestro repartidor se encontrara contigo para realizar la entrega en el area de"/>
+
+
+                <TextView
+
                     android:textColor="@color/rojo"
-                    android:id="@+id/radio_butos_torniquetes"
-                    android:textSize="18dp"
-                    android:text="Torniquetes"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-            </RadioGroup>
+                    android:layout_height="wrap_content"
+                    android:text="TAQUILLAS"/>
+            </LinearLayout>
+<!--            <RadioGroup-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <RadioButton-->
+<!--                    android:checked="true"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/rojo"-->
+<!--                    android:id="@+id/radio_button_reloj"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:text="Bajo el reloj"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--                <RadioButton-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:textColor="@color/rojo"-->
+<!--                    android:id="@+id/radio_butos_torniquetes"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:text="Torniquetes"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--            </RadioGroup>-->
 
 
             <TextView

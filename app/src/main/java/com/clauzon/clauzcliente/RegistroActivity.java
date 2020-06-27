@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.clauzon.clauzcliente.Clases.Repartidor;
 import com.clauzon.clauzcliente.Clases.Usuario;
 import com.clauzon.clauzcliente.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,8 +36,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -141,6 +145,7 @@ public class RegistroActivity extends AppCompatActivity {
                                     });
                                     builder.create().show();
                                 } else {
+                                    correo_existente(email);
                                     password=txt_pass_confirm.getText().toString();
                                     progressBar.setVisibility(View.VISIBLE);
                                     mAuth.createUserWithEmailAndPassword(email, password)
@@ -173,6 +178,7 @@ public class RegistroActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
+
                                 }
                             }else{
                                 Toast.makeText(RegistroActivity.this, "Debes aceptar los Terminos y Condiciones", Toast.LENGTH_SHORT).show();
@@ -181,7 +187,7 @@ public class RegistroActivity extends AppCompatActivity {
                             Toast.makeText(RegistroActivity.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(RegistroActivity.this, "Las contraseñas deben ser identicas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistroActivity.this, "Las contraseñas deben ser identicas de minimo 8 caracteres", Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     Toast.makeText(RegistroActivity.this, "correo electronico no valido", Toast.LENGTH_SHORT).show();
@@ -193,6 +199,45 @@ public class RegistroActivity extends AppCompatActivity {
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    private void correo_existente(final String correo_test){
+
+        DatabaseReference reference = database.getReference();
+        reference.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Usuario usuario = ds.getValue(Usuario.class);
+                    if(usuario.getCorreo().equals(correo_test)){
+                        Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a otro cliente", Toast.LENGTH_SHORT).show();
+                        txt_correo.setError("Correo existente");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        reference.child("Repartidores").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Repartidor repartidor = ds.getValue(Repartidor.class);
+                    if(repartidor.getCorreo().equals(correo_test)){
+                        Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a una cuenta de repartidor", Toast.LENGTH_SHORT).show();}
+                    txt_correo.setError("Correo existente");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private Boolean validarPass(){

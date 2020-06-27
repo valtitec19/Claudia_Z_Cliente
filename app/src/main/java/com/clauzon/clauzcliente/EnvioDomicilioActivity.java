@@ -43,9 +43,9 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private Usuario usuario;
     private Pedidos pedidos;
-    private String id_user;
+    private String id_user, ciudad_seleccionada;
     private List<Pedidos> lista_pedidos = new ArrayList<>();
-    private Spinner spinner;
+    private Spinner spinner, spinner_ciudades;
     private String costo_envio;
     int costo;
     Calendar calendar;
@@ -80,8 +80,23 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
         txt4 = (EditText) findViewById(R.id.cpp);
         txt5 = (EditText) findViewById(R.id.colonia);
         txt6 = (EditText) findViewById(R.id.delegacion);
-        txt7 = (EditText) findViewById(R.id.ciudad);
+//        txt7 = (EditText) findViewById(R.id.ciudad);
         aceptar = (Button) findViewById(R.id.btnAceptarDireccion);
+        spinner_ciudades = (Spinner) findViewById(R.id.spinner_ciudades);
+        ArrayAdapter<CharSequence> ciudades = ArrayAdapter.createFromResource(this, R.array.Ciudades, android.R.layout.simple_spinner_item);
+        spinner_ciudades.setAdapter(ciudades);
+        spinner_ciudades.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ciudad_seleccionada = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         spinner = (Spinner) findViewById(R.id.spinner_tiempo_envio);
         ArrayAdapter<CharSequence> costos_envio = ArrayAdapter.createFromResource(this, R.array.costos_envio, android.R.layout.simple_spinner_item);
         spinner.setAdapter(costos_envio);
@@ -102,7 +117,7 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
                     mañana = calendar.getTime();
                     fecha = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
                 } else {
-                    costo = 100;
+                    costo = 250;
                     calendar.add(Calendar.DATE, 3);
                     //fecha_final=(Date)DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(calendar.getTime());
                     mañana = calendar.getTime();
@@ -124,7 +139,7 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
         cpp = txt4.getText().toString();
         colonia = txt5.getText().toString();
         delegacion = txt6.getText().toString();
-        ciudad = txt7.getText().toString();
+//        ciudad = txt7.getText().toString();
     }
 
 
@@ -136,66 +151,84 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
         reference = database.getReference();
     }
 
-    public void update(){
+    public void update() {
         recupera_datos();
-        if (!nombre.isEmpty() && !direccion1.isEmpty() && !cpp.isEmpty() && !colonia.isEmpty() && !delegacion.isEmpty() && !ciudad.isEmpty()) {
-            full_direccion = nombre + " ," + direccion1 + " " + direccion2 + " " + cpp + " , " + delegacion + ", " + ciudad;
-            AlertDialog.Builder builder = new AlertDialog.Builder(EnvioDomicilioActivity.this);
-            builder.create();
-            builder.setTitle("Confirmar direccion de envio");
-            builder.setMessage(full_direccion);
-            builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    final DatabaseReference databaseReference2=database.getReference("Usuarios/"+currentUser.getUid());
-                    databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            usuario=dataSnapshot.getValue(Usuario.class);
-                            usuario.setDireccion_envio(full_direccion);
-                            databaseReference2.setValue(usuario);
-                            final DatabaseReference databaseReference1=database.getReference("Pedidos");
-                            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for(DataSnapshot ds : dataSnapshot.getChildren()){
-                                        Pedidos pedidos=ds.getValue(Pedidos.class);
-                                        if(pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")){
-                                            pedidos.setDireccion_entrega(full_direccion);
-                                            pedidos.setCosto_envio(costo);
-                                            pedidos.setFecha(fecha);
-                                            databaseReference1.child(pedidos.getId()).setValue(pedidos);
+        if (!nombre.isEmpty() && !direccion1.isEmpty() && !cpp.isEmpty() && !colonia.isEmpty() && !delegacion.isEmpty()) {
+            if(!ciudad_seleccionada.equals("CDMX") && costo==150){
+                AlertDialog.Builder builder = new AlertDialog.Builder(EnvioDomicilioActivity.this);
+                builder.create();
+                builder.setTitle("Opción de envío no valida");
+                builder.setMessage("El envío al día siguiente solo está disponible en la CDMX");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(EnvioDomicilioActivity.this, "Modifica el la opción de envío", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
+
+            }else {
+                full_direccion = nombre + " ," + direccion1 + " " + direccion2 + " " + cpp + " , " + delegacion + ", " + ciudad_seleccionada;
+                AlertDialog.Builder builder = new AlertDialog.Builder(EnvioDomicilioActivity.this);
+                builder.create();
+                builder.setTitle("Confirmar direccion de envio");
+                builder.setMessage(full_direccion);
+                builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final DatabaseReference databaseReference2 = database.getReference("Usuarios/" + currentUser.getUid());
+                        databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                usuario = dataSnapshot.getValue(Usuario.class);
+                                usuario.setDireccion_envio(full_direccion);
+                                databaseReference2.setValue(usuario);
+                                final DatabaseReference databaseReference1 = database.getReference("Pedidos");
+                                databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                            Pedidos pedidos = ds.getValue(Pedidos.class);
+                                            if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
+                                                pedidos.setDireccion_entrega(full_direccion);
+                                                pedidos.setCosto_envio(costo);
+                                                pedidos.setFecha(fecha);
+                                                databaseReference1.child(pedidos.getId()).setValue(pedidos);
+                                            }
+
                                         }
+                                        startActivity(new Intent(EnvioDomicilioActivity.this, CarritoActivity.class));
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                     }
-                                    startActivity(new Intent(EnvioDomicilioActivity.this,CarritoActivity.class));
-                                    finish();
-                                }
+                                });
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+                builder.show();
+            }
 
-                        }
-                    });
-                }
-            });
-            builder.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
 
-                }
-            });
-            builder.show();
 
-        }else{
-            Toast.makeText(this, "Not OK", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(EnvioDomicilioActivity.this, "Llena todos los campos", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -94,7 +94,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                                             Pedidos pedidos = snapshot.getValue(Pedidos.class);
                                             if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
                                                 pedidos.setEstado("Pago pendiente (En efectivo)");
-                                                pedidos.setDescripcion("Punto de entrega "+descripcion_fisica.getText().toString());
+                                                pedidos.setDescripcion("Punto de entrega: "+descripcion_fisica.getText().toString());
                                                 DatabaseReference databaseReference2 = database.getReference();
                                                 databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
                                             }

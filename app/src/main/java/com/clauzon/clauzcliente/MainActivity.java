@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
+
     }
 
     private void recuperar_token_dispositivo() {
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         // Get new Instance ID token
+
                         String token = task.getResult().getToken();
                         DatabaseReference reference= database.getReference().child("token");
                         reference.child(currenUser.getUid()).setValue(token);

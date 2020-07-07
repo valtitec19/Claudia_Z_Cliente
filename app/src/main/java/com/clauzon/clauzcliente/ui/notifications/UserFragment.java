@@ -1,6 +1,7 @@
 package com.clauzon.clauzcliente.ui.notifications;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserFragment extends Fragment {
     private Button boton_config,btn_carrito,btn_forma_pago,btn_fav;
-    private Button boton;
+    private Button boton,unete;
     private RecyclerView recyclerView;
     private CircleImageView foto;
     private TextView txt_nombre;
@@ -152,6 +153,16 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
+
+        unete= (Button) root.findViewById(R.id.unete_a_nosotros);
+        unete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(android.content.Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.clauzon.clauzentregas"));
+                startActivity(i);
+            }
+        });
         return root;
     }
 
@@ -185,10 +196,14 @@ public class UserFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Usuario usuario =dataSnapshot.getValue(Usuario.class);
 
-                    nombre=usuario.getNombre()+" "+usuario.getApellidos();
-                    url_foto=usuario.getFoto();
-                    txt_nombre.setText(nombre);
-                    Glide.with(getActivity()).load(url_foto).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(foto);
+                    try {
+                        nombre=usuario.getNombre()+" "+usuario.getApellidos();
+                        url_foto=usuario.getFoto();
+                        txt_nombre.setText(nombre);
+                        Glide.with(getActivity()).load(url_foto).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(foto);
+                    }catch (Exception e){
+
+                    }
 
                 }
 

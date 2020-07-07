@@ -14,8 +14,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.clauzon.clauzcliente.Clases.Pedidos;
+import com.clauzon.clauzcliente.Clases.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,8 +31,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EntregaDomiciolioFinal extends AppCompatActivity {
 
@@ -36,11 +51,12 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
     private TextView productos, costo, descrcipcion;
     private Spinner spinner;
     private Button button;
-    private RadioButton tarjeta,efectivo;
+    private RadioButton tarjeta, efectivo;
     private EditText descripcion_fisica;
     String product = "";
     float cost;
     private String amount;
+    Pedidos pedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,36 +70,40 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
         inicio_view();
         recuperda_pedidos();
 
-        descripcion_fisica=(EditText)findViewById(R.id.descripcion_fachada_domicio_final);
+        descripcion_fisica = (EditText) findViewById(R.id.descripcion_fachada_domicio_final);
         productos = (TextView) findViewById(R.id.productos_domicio_final);
         costo = (TextView) findViewById(R.id.costo_domicio_final);
         descrcipcion = (TextView) findViewById(R.id.descripcion_domicio_final);
-        tarjeta=(RadioButton)findViewById(R.id.radio_button_tarjeta_domicio_final);
-        efectivo=(RadioButton)findViewById(R.id.radio_butos_efectivo_domicio_final);
+        tarjeta = (RadioButton) findViewById(R.id.radio_button_tarjeta_domicio_final);
+        efectivo = (RadioButton) findViewById(R.id.radio_butos_efectivo_domicio_final);
 
     }
+
     public void firebaseON() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
     }
-    public void inicio_view() {
 
+    public void inicio_view() {
 
 
         button = (Button) findViewById(R.id.btn_entrega_domicio_final);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(efectivo.isChecked()){
+                int temporal = pedidos.getDireccion_entrega().length();
+                String ciudad = pedidos.getDireccion_entrega().substring(temporal - 4, temporal);
+                Log.e("Ciudad ", ciudad );
+                if (efectivo.isChecked() && ciudad.equals("CDMX")) {
 
-                    if(descripcion_fisica.getText().toString().equals("")){
+                    if (descripcion_fisica.getText().toString().equals("")) {
                         descripcion_fisica.setError("Campo obligatorio");
-                    }else{
+                    } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(EntregaDomiciolioFinal.this);
                         builder.setTitle("Descripcion del pedido");
-                        builder.setMessage(descrcipcion.getText().toString()+" Entrega: "+descripcion_fisica.getText().toString());
+                        builder.setMessage(descrcipcion.getText().toString() + " Entrega: " + descripcion_fisica.getText().toString());
                         builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -91,12 +111,40 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            Pedidos pedidos = snapshot.getValue(Pedidos.class);
+                                            final Pedidos pedidos = snapshot.getValue(Pedidos.class);
                                             if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
                                                 pedidos.setEstado("Pago pendiente (En efectivo)");
-                                                pedidos.setDescripcion("Punto de entrega: "+descripcion_fisica.getText().toString());
+                                                pedidos.setDescripcion("Punto de entrega: " + descripcion_fisica.getText().toString());
                                                 DatabaseReference databaseReference2 = database.getReference();
                                                 databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
+                                                if (pedidos.getCosto_envio() == 120) {
+                                                    recupera_info_notificacion("token", pedidos, "Correos de México");
+                                                } else if (pedidos.getCosto_envio() == 150) {
+                                                    recupera_info_notificacion("", pedidos, "CDMX");
+                                                } else if (pedidos.getCosto_envio() == 250) {
+                                                    recupera_info_notificacion("", pedidos, "FedEx");
+                                                }
+//                                                databaseReference.child("token_admin").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                                    @Override
+//                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                                        for(DataSnapshot ds : snapshot.getChildren()){
+//                                                            String token = ds.getValue(String.class);
+//                                                            if(pedidos.getCosto_envio()==120){
+//                                                                recupera_info_notificacion(token,pedidos,"Correos de México");
+//                                                            }else if(pedidos.getCosto_envio()==150){
+//                                                                recupera_info_notificacion(token,pedidos,"CDMX");
+//                                                            }else if(pedidos.getCosto_envio()==250){
+//                                                                recupera_info_notificacion(token,pedidos,"FedEx");
+//                                                            }
+//
+//                                                        }
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                                    }
+//                                                });
                                             }
                                         }
                                     }
@@ -106,7 +154,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
 
                                     }
                                 });
-                                startActivity(new Intent(EntregaDomiciolioFinal.this,MainActivity.class));
+                                startActivity(new Intent(EntregaDomiciolioFinal.this, MainActivity.class));
                                 finish();
                             }
                         });
@@ -120,12 +168,32 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                     }
 
 
+                } else if (efectivo.isChecked() && !ciudad.equals("CDMX")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EntregaDomiciolioFinal.this);
+                    builder.setTitle("El pago en efectivo solo aplica a CDMX");
+                    builder.setMessage("Selecciona un método de pago diferente");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            efectivo.setChecked(false);
+                            tarjeta.setChecked(true);
 
-                }else{
-                    double temp= Float.parseFloat(amount)*0.97;
-                    amount=String.valueOf(temp);
-                    Intent intent= new Intent(EntregaDomiciolioFinal.this,PagoActivity.class);
-                    intent.putExtra("amount",amount);
+                        }
+                    });
+                    builder.setNegativeButton("Regresar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(EntregaDomiciolioFinal.this, MainActivity.class));
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+                } else {
+                    double temp = Float.parseFloat(amount) * 0.97;
+                    amount = String.valueOf(temp);
+                    Intent intent = new Intent(EntregaDomiciolioFinal.this, PagoActivity.class);
+                    intent.putExtra("amount", amount);
                     startActivity(intent);
                 }
             }
@@ -138,7 +206,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Pedidos pedidos = snapshot.getValue(Pedidos.class);
+                    pedidos = snapshot.getValue(Pedidos.class);
                     if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
                         lista.add(pedidos);
                     }
@@ -159,4 +227,58 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
             }
         });
     }
+
+    private void recupera_info_notificacion(final String token, final Pedidos pedidos, final String envio) {
+        databaseReference.child("Usuarios/" + currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario usuario = snapshot.getValue(Usuario.class);
+                enviar_notificacion(token, "Envío via " + envio + " para " + usuario.getNombre() + " " + usuario.getApellidos(), pedidos.getDireccion_entrega() + " " + usuario.getTelefono(), pedidos.getFoto());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void enviar_notificacion(String token, String titulo, String detalle, String imagen) {
+        RequestQueue mRequestQue = Volley.newRequestQueue(this);
+
+        JSONObject json = new JSONObject();
+        try {
+
+            json.put("to", "/topics/" + "domicilio");
+
+            JSONObject notificationObj = new JSONObject();
+            notificationObj.put("titulo", titulo);
+            notificationObj.put("detalle", detalle);
+            notificationObj.put("imagen", imagen);
+
+
+            //replace notification with data when went send data
+            json.put("data", notificationObj);
+
+            String URL = "https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                    json, null, null) {
+
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> header = new HashMap<>();
+                    header.put("content-type", "application/json");
+                    header.put("authorization", "key=AAAAE3HNDFU:APA91bEmPKbwtdaQIrU9g2GmxBEwy7zqHzdwG-L3I7o6HzrKhJ5BupTBTqhN67ytbObOv_NUILcDMaG-HwCLi2tEFKDwOWShs14ZOGpWZOh2DJNhxwjAQIfPtWgn7sxWuDR9VfT4uPQW");
+                    return header;
+                }
+            };
+
+
+            mRequestQue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

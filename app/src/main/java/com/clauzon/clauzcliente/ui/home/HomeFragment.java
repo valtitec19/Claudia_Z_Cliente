@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment implements IFirebaseLoadListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Producto producto = snapshot.getValue(Producto.class);
-                    if(producto.isEstado()){
+                    if(producto.isEstado() && producto.getCantidad_producto()>0){
                         list.add(producto);
                         nombres.add(producto.getCategoria());
                     }

@@ -334,6 +334,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                                 }else {
                                                     pedidos.setEstado("Pago pendiente (En efectivo)");
                                                     databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
+                                                    //disminuir_producto(pedidos.getProducto_id(),pedidos.getCantidad());
                                                     databaseReference.child("Catalogo Productos").addListenerForSingleValueEvent(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -410,21 +411,20 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 
                 } else if (tarjeta.isChecked()) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this,R.style.AlertDialogStyle);
-                    builder.setTitle("Pago con tarjeta no disponible");
-                    builder.setMessage("¡Espera esta opción muy pronto!");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            efectivo.setChecked(true);
-                            tarjeta.setChecked(false);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this,R.style.AlertDialogStyle);
+//                    builder.setTitle("Pago con tarjeta no disponible");
+//                    builder.setMessage("¡Espera esta opción muy pronto!");
+//                    builder.setCancelable(false);
+//                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            efectivo.setChecked(true);
+//                            tarjeta.setChecked(false);
+//
+//                        }
+//                    });
+//                    builder.create().show();
 
-                        }
-                    });
-                    builder.create().show();
-
-                    /*Tarjeta desactivada temporalmente
                     double temp= Float.parseFloat(amount)*0.97;
                     amount=String.valueOf(temp);
                     databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -461,7 +461,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });*/
+                    });
 
                 }
 
@@ -508,6 +508,27 @@ public class HorarioEntregaActivity extends AppCompatActivity {
             mes="diciembre";
         }
         return  mes;
+    }
+
+    private void disminuir_producto(final String id, final int cantidad){
+        databaseReference.child("Catalogo Productos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Producto producto = ds.getValue(Producto.class);
+                    if(producto.getId_producto().equals(id)){
+                        producto.setCantidad_producto(producto.getCantidad_producto()-cantidad);
+                        databaseReference.child("Catalogo Productos").child(producto.getId_producto()).setValue(producto);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void enviar_notificacion(String token,String titulo, String detalle,String imagen) {

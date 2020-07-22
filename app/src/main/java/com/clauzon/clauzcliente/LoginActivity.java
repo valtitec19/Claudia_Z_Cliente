@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             nextActivity();
         }
         progressBar = (ProgressBar) findViewById(R.id.progress_circular_login);
+        progressBar.setBackgroundColor(Color.GRAY);
         progressBar.setVisibility(View.GONE);
     }
 

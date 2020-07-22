@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
+    android:background="@drawable/fondo_2"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -10,45 +11,58 @@
 
 
     <LinearLayout
-        android:padding="5dp"
-        android:orientation="vertical"
-        android:layout_width="170dp"
-        android:layout_height="250dp">
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="180dp"
+        android:layout_height="260dp">
 
-        <ImageView
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/foto_recycler"/>
+        <LinearLayout
+            android:background="@drawable/fondo_2"
+            android:padding="1dp"
+            android:orientation="vertical"
+            android:layout_width="170dp"
+            android:layout_height="250dp">
 
-        <TextView
-            android:textColor="@color/colorAccent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit ="marquee_forever"
-            android:singleLine="true"
-            android:id="@+id/nombre_recycler"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Costo"
-            android:textSize="18dp"/>
+            <ImageView
+                android:padding="1dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/foto_recycler"/>
 
-        <TextView
-            android:textColor="@color/azul"
-            android:id="@+id/costo__recycler"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Costo"
-            android:textSize="18dp"/>
+            <TextView
+                android:textStyle="italic"
+                android:textColor="@color/colorAccent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit ="marquee_forever"
+                android:singleLine="true"
+                android:id="@+id/nombre_recycler"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Costo"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:textColor="@color/azul"
+                android:id="@+id/costo__recycler"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Costo"
+                android:textSize="18dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
 </androidx.cardview.widget.CardView>

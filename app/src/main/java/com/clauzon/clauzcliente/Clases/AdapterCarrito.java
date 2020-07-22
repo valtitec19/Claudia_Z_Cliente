@@ -53,7 +53,7 @@ public class AdapterCarrito extends RecyclerView.Adapter<HolderCarrito> implemen
     @Override
     public void onBindViewHolder(@NonNull final HolderCarrito holder, final int position) {
         p = (list.get(position));
-        holder.getProducto().setText(list.get(position).getNombre());
+        holder.getProducto().setText(list.get(position).getNombre()+" "+list.get(position).getColor()+" "+list.get(position).getTamano()+" "+list.get(position).getModelo());
         holder.getColor().setText(list.get(position).getDescripcion());
         pos = position;
         holder.getUnidades().setText(String.valueOf(list.get(position).getCantidad()) + " Piezas");

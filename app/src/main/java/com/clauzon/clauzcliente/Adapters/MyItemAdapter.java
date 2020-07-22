@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.clauzon.clauzcliente.Clases.Producto;
 import com.clauzon.clauzcliente.Interface.IItemClickListener;
 import com.clauzon.clauzcliente.OrdenActivity;
@@ -45,7 +48,9 @@ public class MyItemAdapter extends RecyclerView.Adapter<MyItemAdapter.MyViewHold
 
         holder.costo.setText("$"+String.valueOf(list.get(position).getVenta_producto()));
         holder.nombre_item.setText(list.get(position).getNombre_producto());
-        Glide.with(context).load(list.get(position).getFoto_producto()).override(800,800).centerCrop()
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+        Glide.with(context).load(list.get(position).getFoto_producto()).transform(new CenterCrop(),new RoundedCorners(30))//.centerCrop()/*.override(800,800)*/
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.foto_item);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

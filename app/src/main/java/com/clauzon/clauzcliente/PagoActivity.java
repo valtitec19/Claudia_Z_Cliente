@@ -250,7 +250,7 @@ public class PagoActivity extends AppCompatActivity {
             params.put("description", _description);
 
             //returing the response
-            return requestHandler.sendPostRequest("https://valtierrapruebas.000webhostapp.com/TutoStripe/charge.php", params);
+            return requestHandler.sendPostRequest("https://claudiazon.com/TutoStripe/charge.php", params);
         }
 
         //CUANDO NOS RETORNA INFORMACION

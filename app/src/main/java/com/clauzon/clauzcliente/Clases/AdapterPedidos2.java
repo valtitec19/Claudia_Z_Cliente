@@ -49,7 +49,7 @@ public class AdapterPedidos2 extends RecyclerView.Adapter<HolderPedidos> impleme
     public void onBindViewHolder(@NonNull HolderPedidos holder, final int position) {
 
         // if(lista.get(position).getEstado().equals("Pago pendiente (En efectivo)") || lista.get(position).getEstado().equals("Pagado") ||lista.get(position).getEstado().equals("Completado") || lista.get(position).getEstado().equals("Cancelado")){
-        holder.getProductos_pedido().setText(lista.get(position).getNombre());
+        holder.getProductos_pedido().setText(lista.get(position).getNombre()+ " "+lista.get(position).getColor()+" "+lista.get(position).getTamano()+" "+lista.get(position).getModelo());
         holder.getLugar().setText("Entrega: "+lista.get(position).getDireccion_entrega());
         if(lista.get(position).getHora_entrega().equals("00:00")){
             holder.getFecha().setVisibility(View.GONE);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,21 +17,29 @@
         android:id="@+id/progressBar_registro"
         android:indeterminate="true"/>
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:textSize="26dp"
-                android:paddingTop="20dp"
-                android:layout_width="match_parent"
+                android:textColor="@color/white"
                 android:layout_height="wrap_content"
-                android:text="CREAR UNA CUENTA"
-                android:gravity="center"/>
+                android:layout_width="match_parent"
+                android:text="Claudia Z Online News"
+                android:textStyle="bold|italic"
+                android:textSize="30dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:padding="25dp"/>
 
             <LinearLayout
                 android:padding="15dp"
@@ -42,12 +51,14 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:id="@+id/foto_registro"
-                    android:src="@drawable/ic_add_a_photo_black_24dp"
+                    android:src="@drawable/ic_baseline_tag_faces_24"
                     android:layout_gravity="center"
                     android:padding="15dp"/>
             </LinearLayout>
 
             <TextView
+                android:textStyle="italic"
+                android:textColor="@color/white"
                 android:singleLine="true"
                 android:textSize="18dp"
                 android:paddingTop="25dp"
@@ -56,7 +67,11 @@
                 android:layout_height="wrap_content"
                 android:text="Información Personal"
                 android:gravity="left"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -64,22 +79,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="15dp"
-                    android:hint="Nombre">
+                    android:hint="Nombre"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
                     <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
                         android:singleLine="true"
                         android:id="@+id/nombre_registro"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="15dp"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="15dp"
-                    android:hint="Apellido">
+                    android:hint="Apellido"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
                     <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
                         android:singleLine="true"
                         android:id="@+id/apellido_registro"
                         android:layout_width="match_parent"
@@ -88,115 +113,94 @@
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+            <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:hint="Numero de celular">
-                <EditText
-                    android:singleLine="true"
-                    android:inputType="numberDecimal"
-                    android:id="@+id/telefono_registro"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:hint="Numero de celular"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
+                    <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:id="@+id/telefono_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:hint="Dirección de correo electrónico">
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/correo_registro"
+                <Space
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="15dp"/>
 
-<!--            <TextView-->
-<!--                android:paddingLeft="15dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Fecha de nacimiento *"-->
-<!--                android:textSize="15dp"/>-->
-<!--            <LinearLayout-->
-<!--                android:padding="15dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner_dia_registro"-->
-<!--                    android:padding="3dp"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:scrollbarSize="30dp">-->
-
-<!--                </Spinner>-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner_mes_registro"-->
-<!--                    android:padding="3dp"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:scrollbarSize="30dp">-->
-
-<!--                </Spinner>-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner_año_registro"-->
-<!--                    android:padding="3dp"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:scrollbarSize="30dp">-->
-
-<!--                </Spinner>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <TextView-->
-<!--                android:paddingLeft="15dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Género*"-->
-<!--                android:textSize="15dp"/>-->
-<!--            <Spinner-->
-<!--                android:id="@+id/spinner_genero_registro"-->
-<!--                android:padding="15dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:scrollbarSize="30dp">-->
-
-<!--            </Spinner>-->
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:hint="Contraseña *">
-                <EditText
-                    android:singleLine="true"
-                    android:inputType="textPassword"
-                    android:id="@+id/contraseña_registro"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:hint="Confirmar contraseña *">
-                <EditText
-                    android:singleLine="true"
-                    android:inputType="textPassword"
-                    android:id="@+id/contraseña_registro_confirmada"
+                    android:layout_height="wrap_content"
+                    android:hint="Dirección de correo electrónico"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
+                    <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:singleLine="true"
+                        android:id="@+id/correo_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="15dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contraseña *"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
+                    <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:id="@+id/contraseña_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirmar contraseña *"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white"
+                    android:background="@drawable/edit_text_style_2">
+                    <EditText
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:singleLine="true"
+                        android:inputType="textPassword"
+                        android:id="@+id/contraseña_registro_confirmada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
 
 
@@ -206,6 +210,8 @@
                 android:padding="15dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:textColor="@color/azul_click"
+                    android:padding="15dp"
                     android:onClick="aviso_privacidad"
                     android:paddingLeft="15dp"
                     android:layout_width="0dp"
@@ -215,6 +221,7 @@
                     android:textSize="15dp"/>
 
                 <CheckBox
+                    android:background="@color/white"
                     android:id="@+id/terminos_y_condiciones_registro"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -224,15 +231,18 @@
             </LinearLayout>
 
             <Button
+                android:textColor="@color/white"
+                android:background="@drawable/botones"
                 android:id="@+id/enviar_registro"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="350dp"
                 android:layout_height="50dp"
+                android:layout_width="350dp"
                 android:text="ENVIAR"
                 android:textSize="20dp"/>
             <TextView
-                android:paddingRight="15dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="*Campos obligatorios"

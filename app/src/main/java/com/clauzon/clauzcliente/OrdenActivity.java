@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,14 +55,16 @@ public class OrdenActivity extends AppCompatActivity {
     private String value;
     private Pedidos pedidos;
     private String id,id_user;
+    private ImageAdapter imageAdapter;
     private ViewPager viewPager;
     private ArrayList<String> imagenes=new ArrayList<>();
     private LinearLayout linearLayout;
     private int position;
     private ImageView[] dots;
-    private ImageAdapter imageAdapter;
     private String fecha,id_compra;
     private int tarjeta;
+    private Spinner spinner_colores,spinner_tamaños,spinner_modelos;
+    private String color_seleccionado,tamano_seleccionado,modelos_seleccionado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,67 @@ public class OrdenActivity extends AppCompatActivity {
         btn1 = (Button) findViewById(R.id.add_orden);
         btn2 = (Button) findViewById(R.id.remove_orden);
         btn3 = (Button) findViewById(R.id.añadir_orden);
+        spinner_colores=(Spinner) findViewById(R.id.spinne_color_orden);
+        spinner_tamaños=(Spinner) findViewById(R.id.spinne_tamaño_orden);
+        spinner_modelos=(Spinner) findViewById(R.id.spinne_modelo_orden);
+        if(p_recibido.getColores().size()>0){
+            ArrayList<String> array_colores=p_recibido.getColores();
+            ArrayAdapter<String> adapter_colores = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_colores);
+            spinner_colores.setAdapter(adapter_colores);
+            spinner_colores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    color_seleccionado = adapterView.getItemAtPosition(i).toString();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }else {
+            color_seleccionado="";
+            spinner_colores.setVisibility(View.GONE);
+        }
+        if(p_recibido.getTamanos().size()>0){
+            ArrayList<String> array_tamanos=p_recibido.getTamanos();
+            ArrayAdapter<String> adapter_tamanos = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_tamanos);
+            spinner_tamaños.setAdapter(adapter_tamanos);
+            spinner_tamaños.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    tamano_seleccionado = adapterView.getItemAtPosition(i).toString();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }else {
+            tamano_seleccionado="";
+            spinner_tamaños.setVisibility(View.GONE);
+        }
+        if(p_recibido.getModelos().size()>0){
+            ArrayList<String> array_modelos=p_recibido.getModelos();
+            ArrayAdapter<String> adapter_modelos = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_modelos);
+            spinner_modelos.setAdapter(adapter_modelos);
+            spinner_modelos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    modelos_seleccionado = adapterView.getItemAtPosition(i).toString();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }else {
+            modelos_seleccionado="";
+            spinner_modelos.setVisibility(View.GONE);
+        }
+
         recupera_imagenes(p_recibido);
         //Log.e("IMAGEN RECUPERADA", p_recibido.getImagenes().get(0) );
 
@@ -87,6 +153,8 @@ public class OrdenActivity extends AppCompatActivity {
 
         //viewPagerOn();
     }
+
+
 
     public void remove_contador(View view) {
 
@@ -143,7 +211,7 @@ public class OrdenActivity extends AppCompatActivity {
                     id = p_recibido.getId_producto();
                     String estado = "Carrito";
                     final int cantidad = Integer.parseInt(txt4.getText().toString());
-                    pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta);
+                    pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta,color_seleccionado,tamano_seleccionado,modelos_seleccionado);
                     usuario.addPedido(value);
                     databaseReference.child("Pedidos").child(value).setValue(pedidos);
                     databaseReference.child("Usuarios").child(usuario.getId()).setValue(usuario);
@@ -195,7 +263,7 @@ public class OrdenActivity extends AppCompatActivity {
         id = p_recibido.getId_producto();
         String estado = "Carrito";
         final int cantidad = Integer.parseInt(txt4.getText().toString());
-        pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "dirección", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta);
+        pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "dirección", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta,color_seleccionado,tamano_seleccionado,modelos_seleccionado);
         usuario.addPedido(value);
         databaseReference.child("Pedidos").child(value).setValue(pedidos);
         databaseReference.child("Usuarios").child(usuario.getId()).setValue(usuario);

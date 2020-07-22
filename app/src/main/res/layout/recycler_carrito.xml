@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:textColor="@color/colorAccent"
                     android:layout_weight="1"
                     android:id="@+id/producto_recycler_carrito"
                     android:textSize="22dp"
@@ -64,6 +65,7 @@
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="10dp"/>-->
             <TextView
+                android:textColor="@color/colorAccent"
                 android:id="@+id/color_Recycler_carrito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,6 +93,7 @@
                         android:layout_height="34dp"/>
 
                     <TextView
+                        android:textColor="@color/colorAccent"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="Unidades"
@@ -112,6 +115,7 @@
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"/>-->
                 <TextView
+                    android:textColor="@color/colorAccent"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:id="@+id/costo_recycler_carrito"

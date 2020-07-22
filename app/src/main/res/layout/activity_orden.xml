@@ -65,6 +65,42 @@
                     android:textSize="28dp"
                     android:textStyle="bold|italic" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"/>
+
+                <Spinner
+                    android:id="@+id/spinne_color_orden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbarSize="30dp">
+
+                </Spinner>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"/>
+
+                <Spinner
+                    android:id="@+id/spinne_tamaño_orden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbarSize="30dp">
+
+                </Spinner>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"/>
+
+                <Spinner
+                    android:id="@+id/spinne_modelo_orden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbarSize="30dp">
+
+                </Spinner>
+
             </LinearLayout>
         </ScrollView>
 

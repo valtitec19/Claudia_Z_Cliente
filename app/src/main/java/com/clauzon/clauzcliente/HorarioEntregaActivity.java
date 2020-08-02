@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.clauzon.clauzcliente.Clases.AdapterHoras;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Producto;
+import com.clauzon.clauzcliente.Clases.Repartidor;
 import com.clauzon.clauzcliente.Clases.Ruta;
 import com.clauzon.clauzcliente.Clases.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
@@ -355,14 +356,14 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                                                             //Enviar notificacion
 
 
-                                                                            databaseReference.child("token/"+pedidos.getRepartidor_id()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                            databaseReference.child("Repartidores/"+pedidos.getRepartidor_id()).addListenerForSingleValueEvent(new ValueEventListener() {
                                                                                 @Override
                                                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                                    String token = snapshot.getValue(String.class);
+                                                                                    Repartidor repartidor = snapshot.getValue(Repartidor.class);
                                                                                     String dia=mañana.toString().substring(8,10);
                                                                                     String mes=pedidos.getFecha().substring(5,7);
                                                                                     Log.e("MES ", mes );
-                                                                                    enviar_notificacion(token,"Tienes una nueva entrega para el día "+dia+" "+get_mes(mes),"A las "+pedidos.getHora_entrega()+" en "+pedidos.getDireccion_entrega()+" en el área de "+pedidos.getDescripcion(), pedidos.getFoto());
+                                                                                    enviar_notificacion(repartidor.getToken(),"Tienes una nueva entrega para el día "+dia+" "+get_mes(mes),"A las "+pedidos.getHora_entrega()+" en "+pedidos.getDireccion_entrega()+" en el área de "+pedidos.getDescripcion(), pedidos.getFoto());
                                                                                     //Log.e("Token para notificar", token );
                                                                                 }
 

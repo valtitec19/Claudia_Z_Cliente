@@ -1,11 +1,13 @@
 package com.clauzon.clauzcliente.Servicios;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -60,8 +62,13 @@ public class FCM extends FirebaseMessagingService {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentText(detalle)
                     .setContentInfo("nuevo")
+                    .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                    .setSmallIcon(R.drawable.claudia)
                     .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(picasso).bigLargeIcon(null))
-
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setLights(Color.WHITE, 1000, 1000)
+                    .setDefaults(Notification.DEFAULT_SOUND)
                     .setContentIntent(click_notificacion());
 
             Random random=new Random();

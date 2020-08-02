@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                         // Get new Instance ID token
 
                         String token = task.getResult().getToken();
-                        DatabaseReference reference= database.getReference().child("token");
-                        reference.child(currenUser.getUid()).setValue(token);
+                        DatabaseReference reference= database.getReference().child("Usuarios/"+currenUser.getUid()).child("token");
+                        reference.setValue(token);
 
                     }
                 });

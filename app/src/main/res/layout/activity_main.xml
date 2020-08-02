@@ -22,6 +22,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:itemTextColor="@color/white"
+        app:itemHorizontalTranslationEnabled="true"
+        app:itemIconTint="@color/white"
         android:backgroundTintMode="multiply"
         android:id="@+id/nav_view"
         android:layout_width="0dp"

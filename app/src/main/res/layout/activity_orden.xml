@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:background="@color/colorAccent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,75 +33,200 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"/>
+
+                <TextView
+                    android:padding="15dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/nombre_orden"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del producto"
+                    android:textSize="20dp"
+                    android:textStyle="bold|normal" />
+
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:padding="5dp" />
 
-                <TextView
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/nombre_orden"
+
+                <LinearLayout
+                    android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nombre del producto"
-                    android:textSize="30dp"
-                    android:textStyle="bold|normal" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/descripcion_orden"
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_precio_recomendado"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Precio recomendado: "
+                                android:textColor="@color/white"
+                                android:textSize="14dp" />
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/txt_oferta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Precio de la oferta: "
+                                android:textColor="@color/white"
+                                android:textSize="14dp" />
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/txt_ahorro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ahorras: "
+                                android:textColor="@color/white"
+                                android:textSize="14dp" />
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="10dp"
+                            android:layout_height="wrap_content"/>
+
+                        <LinearLayout
+                            android:gravity="left"
+                            android:layout_gravity="left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/precio_orden"
+                                android:background="@drawable/linia"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$43243532532"
+                                android:textColor="@color/white"
+                                android:textSize="14dp"/>
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/precio_oferta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 "
+                                android:textColor="@color/verde"
+                                android:textSize="14dp"/>
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:id="@+id/ahorro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$4324332"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="14dp"/>
+
+                            <Space
+                                android:layout_width="25dp"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"/>
+
+                    <TextView
+                        android:gravity="left"
+                        android:layout_gravity="center"
+                        android:textSize="16dp"
+                        android:textColor="@color/white"
+                        android:id="@+id/descripcion_orden"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Descripcion del producto con medidas y color" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="Descripcion del producto con medidas y color"
-                    android:textStyle="normal|italic" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/precio_orden"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$43243532532"
-                    android:textColor="@color/azul"
-                    android:textSize="28dp"
-                    android:textStyle="bold|italic" />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"/>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"/>
+                    <Spinner
 
-                <Spinner
-                    android:id="@+id/spinne_color_orden"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbarSize="30dp">
+                        android:elevation="10dp"
+                        android:background="@color/transparente"
+                        android:id="@+id/spinne_color_orden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbarSize="30dp">
 
-                </Spinner>
+                    </Spinner>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"/>
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"/>
 
-                <Spinner
-                    android:id="@+id/spinne_tamaño_orden"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbarSize="30dp">
+                    <Spinner
+                        android:id="@+id/spinne_tamaño_orden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbarSize="30dp">
 
-                </Spinner>
+                    </Spinner>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"/>
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"/>
 
-                <Spinner
-                    android:id="@+id/spinne_modelo_orden"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scrollbarSize="30dp">
+                    <Spinner
+                        android:id="@+id/spinne_modelo_orden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbarSize="30dp">
 
-                </Spinner>
+                    </Spinner>
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
@@ -116,7 +243,7 @@
         android:padding="5dp"
         android:text="Garantías y devoluciones"
         android:textColor="@color/azul_click"
-        android:textSize="14dp" />
+        android:textSize="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,12 +255,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="10dp">
+            android:padding="15dp">
 
             <Button
                 android:id="@+id/add_orden"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_remove_black"
                 android:gravity="center"
@@ -141,7 +268,14 @@
                 android:shadowDx="3"
                 android:shadowRadius="100" />
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/white"
                 android:id="@+id/contador_orden"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -150,10 +284,15 @@
                 android:text="0"
                 android:textSize="30dp" />
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <Button
                 android:id="@+id/remove_orden"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_add_black_24dp"
                 android:gravity="center"
@@ -169,12 +308,13 @@
             android:padding="10dp">
 
             <Button
+                android:textAllCaps="false"
                 android:id="@+id/añadir_orden"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/redondo"
+                android:background="@drawable/botones"
                 android:gravity="center"
                 android:onClick="aceptar_orden"
                 android:text="Agregar"

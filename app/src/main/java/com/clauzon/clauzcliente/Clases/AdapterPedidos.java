@@ -51,21 +51,40 @@ public class AdapterPedidos extends RecyclerView.Adapter<HolderPedidos> implemen
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderPedidos holder, final int position) {
+    public void onBindViewHolder(@NonNull final HolderPedidos holder, final int position) {
+
+        DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("Usuarios/"+id);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario usuario = snapshot.getValue(Usuario.class);
+                holder.getCliente().setText("Pedido para: "+usuario.getNombre());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // if(lista.get(position).getEstado().equals("Pago pendiente (En efectivo)") || lista.get(position).getEstado().equals("Pagado") ||lista.get(position).getEstado().equals("Completado") || lista.get(position).getEstado().equals("Cancelado")){
         holder.getProductos_pedido().setText(lista.get(position).getNombre()+ " "+lista.get(position).getColor()+" "+lista.get(position).getTamano()+" "+lista.get(position).getModelo());
-        holder.getLugar().setText("Entrega: " + lista.get(position).getDireccion_entrega());
+        holder.getLugar().setText(lista.get(position).getDireccion_entrega());
         if (lista.get(position).getHora_entrega().equals("00:00")) {
             holder.getFecha().setVisibility(View.GONE);
         } else if (lista.get(position).getHora_entrega().equals("")) {
-            holder.getFecha().setText("Entrega: " + lista.get(position).getFecha() + ", Hora pendiente");
+            holder.getFecha().setText(lista.get(position).getFecha() + ", Hora pendiente");
         } else {
-            holder.getFecha().setText("Entrega: " + lista.get(position).getFecha() + ", " + lista.get(position).getHora_entrega());
+            holder.getFecha().setText( lista.get(position).getFecha() + ", " + lista.get(position).getHora_entrega());
         }
         holder.getEstado().setText(lista.get(position).getEstado());
         float cantidad = lista.get(position).getCantidad() * lista.get(position).getCosto();
-        holder.getCosto().setText("Costo: $" + String.valueOf(cantidad)+" - "+lista.get(position).getCantidad()+" Unidades");
+
+        if(lista.get(position).getCantidad()==1){
+            holder.getCosto().setText(lista.get(position).getCantidad()+" Unidad" +" - "+String.valueOf(cantidad));
+        }else {
+            holder.getCosto().setText(lista.get(position).getCantidad()+" Unidades" +" - "+String.valueOf(cantidad));
+        }
         Glide.with(context).load(lista.get(position).getFoto()).centerCrop().override(250, 250)
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.getFoto());
         //  }

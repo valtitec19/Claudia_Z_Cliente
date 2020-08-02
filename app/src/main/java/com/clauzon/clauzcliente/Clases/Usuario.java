@@ -9,10 +9,11 @@ public class Usuario implements Serializable {
     private List<String> pedidos= new ArrayList<>();
     private List<String> favoritos= new ArrayList<>();
     private  int multas;
+    private String token;
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellidos, String correo, String telefono, String id, String fecha, String genero, String foto, List<String> pedidos,List<String> favoritos,String direccion_envio,int multas) {
+    public Usuario(String nombre, String apellidos, String correo, String telefono, String id, String fecha, String genero, String foto, List<String> pedidos,List<String> favoritos,String direccion_envio,int multas,String token) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correo = correo;
@@ -25,6 +26,7 @@ public class Usuario implements Serializable {
         this.favoritos=favoritos;
         this.direccion_envio=direccion_envio;
         this.multas=multas;
+        this.token=token;
     }
 
     public Usuario(String nombre, String apellidos, String correo, String telefono, String id, String fecha, String genero, String foto) {
@@ -133,6 +135,14 @@ public class Usuario implements Serializable {
 
     public void setDireccion_envio(String direccion_envio) {
         this.direccion_envio = direccion_envio;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

@@ -127,6 +127,8 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
             }
         });
+        startActivity(new Intent(EditarPerfilActivity.this,MainActivity.class));
+        finish();
     }
 
     public void Inicio_Spinners() {
@@ -138,7 +140,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
         s_genero = (Spinner) findViewById(R.id.spinner_genero_perfil);
         String[] generos = {"Hombre", "Mujer","No binario"};
-        adapter_spinner_genero = new ArrayAdapter<String>(this, R.layout.spinner, generos);
+        adapter_spinner_genero = new ArrayAdapter<String>(this, R.layout.spinner_texto, generos);
         s_genero.setAdapter(adapter_spinner_genero);
         s_genero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -10,6 +10,8 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,7 @@ public class ImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView=new ImageView(context);
-        Glide.with(context).load(imagenes.get(position)).centerCrop().fitCenter()
+        Glide.with(context).load(imagenes.get(position)).centerCrop().fitCenter().apply(RequestOptions.bitmapTransform(new RoundedCorners(100)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
         container.addView(imageView,0);
 

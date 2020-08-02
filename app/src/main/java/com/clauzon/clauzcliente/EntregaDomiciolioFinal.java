@@ -124,27 +124,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                                                 } else if (pedidos.getCosto_envio() == 250) {
                                                     recupera_info_notificacion("", pedidos, "FedEx");
                                                 }
-//                                                databaseReference.child("token_admin").addListenerForSingleValueEvent(new ValueEventListener() {
-//                                                    @Override
-//                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                        for(DataSnapshot ds : snapshot.getChildren()){
-//                                                            String token = ds.getValue(String.class);
-//                                                            if(pedidos.getCosto_envio()==120){
-//                                                                recupera_info_notificacion(token,pedidos,"Correos de México");
-//                                                            }else if(pedidos.getCosto_envio()==150){
-//                                                                recupera_info_notificacion(token,pedidos,"CDMX");
-//                                                            }else if(pedidos.getCosto_envio()==250){
-//                                                                recupera_info_notificacion(token,pedidos,"FedEx");
-//                                                            }
-//
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                                    }
-//                                                });
+
                                             }
                                         }
                                     }

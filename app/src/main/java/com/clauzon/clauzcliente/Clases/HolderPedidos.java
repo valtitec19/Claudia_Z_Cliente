@@ -12,6 +12,7 @@ import com.clauzon.clauzcliente.R;
 public class HolderPedidos extends RecyclerView.ViewHolder {
     private TextView productos_pedido,lugar,fecha,estado,costo;
     private ImageView foto,cancelar;
+    private TextView cliente;
     public HolderPedidos(@NonNull View itemView) {
         super(itemView);
         productos_pedido=(TextView)itemView.findViewById(R.id.productos_recycler_pedido);
@@ -21,6 +22,14 @@ public class HolderPedidos extends RecyclerView.ViewHolder {
         costo=(TextView)itemView.findViewById(R.id.costo_recycler_pedido);
         foto=(ImageView)itemView.findViewById(R.id.foto_recycler_pedido);
         cancelar=(ImageView)itemView.findViewById(R.id.cancelar);
+        cliente=(TextView)itemView.findViewById(R.id.cliente_recycler_pedido);
+        productos_pedido.setSelected(true);
+        lugar.setSelected(true);
+        fecha.setSelected(true);
+        estado.setSelected(true);
+        costo.setSelected(true);
+        cliente.setSelected(true);
+
     }
 
     public TextView getProductos_pedido() {
@@ -77,5 +86,13 @@ public class HolderPedidos extends RecyclerView.ViewHolder {
 
     public void setCancelar(ImageView cancelar) {
         this.cancelar = cancelar;
+    }
+
+    public TextView getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(TextView cliente) {
+        this.cliente = cliente;
     }
 }

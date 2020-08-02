@@ -161,7 +161,7 @@ public class RegistroActivity extends AppCompatActivity {
                                                                     progressBar.setVisibility(View.GONE);
                                                                     FirebaseUser currenUser=mAuth.getCurrentUser();
                                                                     id=currenUser.getUid();
-                                                                    usuario= new Usuario(nombre,apellido,email,telefono,id,"","",url_foto,pedidos,favoritos,direccion_envio,multas);
+                                                                    usuario= new Usuario(nombre,apellido,email,telefono,id,"","",url_foto,pedidos,favoritos,direccion_envio,multas,"");
                                                                     DatabaseReference referenceRepartidores= database.getReference("Usuarios/"+id);
                                                                     referenceRepartidores.setValue(usuario);
                                                                     Intent intent=getIntent();//new Intent(RegistroActivity.this, LoginActivity.class);
@@ -387,7 +387,7 @@ public class RegistroActivity extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 Uri contentURI = data.getData();
-                storageReference = firebaseStorage.getReference("IMAGENES CATALOGO PRODUCTOS");
+                storageReference = firebaseStorage.getReference("IMAGENES USUARIOS");
                 final StorageReference foto_subida = storageReference.child(contentURI.getLastPathSegment());
                 foto_subida.putFile(contentURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

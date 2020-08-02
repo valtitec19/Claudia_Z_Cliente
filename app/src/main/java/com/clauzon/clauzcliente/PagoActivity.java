@@ -81,7 +81,7 @@ public class PagoActivity extends AppCompatActivity {
         Log.e("Primer recibido " , amount );
         //INSTANCIAMOS STRIPE PARA PODER LLARMARLO EN CUALQUIER PARTE DEL CODIGO
         try {
-            stripe = new Stripe("pk_test_ztBjqcCSpW7gFjowluJbG9xl001xruX4Jm");
+            stripe = new Stripe("pk_live_x20pXSADnOIGmRtHSW895IYy00VGYAFcNa");
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
@@ -156,7 +156,7 @@ public class PagoActivity extends AppCompatActivity {
         card.setName(nombre_pago.getText().toString());
 
         //CREAMOS EL TOKEN DE STRIPE EN DONDE SE LE PASA LA TARJETA Y LA KEY PUBLICA
-        stripe.createToken(card, "pk_test_ztBjqcCSpW7gFjowluJbG9xl001xruX4Jm", new TokenCallback() {
+        stripe.createToken(card, "pk_live_x20pXSADnOIGmRtHSW895IYy00VGYAFcNa", new TokenCallback() {
 
             public void onSuccess(Token token) {
                 // TODO: Send Token information to your backend to initiate a charge

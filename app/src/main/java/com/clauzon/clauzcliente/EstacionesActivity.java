@@ -57,9 +57,6 @@ public class EstacionesActivity extends AppCompatActivity {
             @Override
             public void onClick(final View view) {
 
-
-
-
                 databaseReference=database.getReference("Usuarios/"+currentUser.getUid());
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

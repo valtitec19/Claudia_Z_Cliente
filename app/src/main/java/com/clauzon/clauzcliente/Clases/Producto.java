@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Producto implements Serializable {
     private String nombre_producto, descripcion, id_producto, foto_producto, estado_producto, categoria;
     private boolean estado = false;
-    private float venta_producto;
+    private float venta_producto,oferta;
     private int cantidad_producto;
     private ArrayList<String> imagenes = new ArrayList<>();
     private ArrayList<String> colores = new ArrayList<>();
@@ -30,13 +30,14 @@ public class Producto implements Serializable {
         this.imagenes = imagenes;
     }
 
-    public Producto(String nombre_producto, String descripcion, String id_producto, String foto_producto, boolean estado, float venta_producto, int cantidad_producto, String estado_producto, String categoria, ArrayList<String> imagenes, ArrayList<String> colores, ArrayList<String> tamaños, ArrayList<String> modelos) {
+    public Producto(String nombre_producto, String descripcion, String id_producto, String foto_producto, boolean estado, float venta_producto,float oferta, int cantidad_producto, String estado_producto, String categoria, ArrayList<String> imagenes, ArrayList<String> colores, ArrayList<String> tamaños, ArrayList<String> modelos) {
         this.nombre_producto = nombre_producto;
         this.descripcion = descripcion;
         this.id_producto = id_producto;
         this.foto_producto = foto_producto;
         this.estado = estado;
         this.venta_producto = venta_producto;
+        this.oferta=oferta;
         this.cantidad_producto = cantidad_producto;
         this.estado_producto = estado_producto;
         this.categoria = categoria;
@@ -149,5 +150,13 @@ public class Producto implements Serializable {
 
     public void setModelos(ArrayList<String> modelos) {
         this.modelos = modelos;
+    }
+
+    public float getOferta() {
+        return oferta;
+    }
+
+    public void setOferta(float oferta) {
+        this.oferta = oferta;
     }
 }

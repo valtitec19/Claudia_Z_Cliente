@@ -1,13 +1,17 @@
 package com.clauzon.clauzcliente;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.clauzon.clauzcliente.Clases.ImageAdapter;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Producto;
@@ -41,7 +46,7 @@ import java.util.UUID;
 public class OrdenActivity extends AppCompatActivity {
 
     private Producto p_recibido;
-    private TextView txt1, txt2, txt3, txt4;
+    private TextView txt1, txt2, txt3, txt4,oferta,ahorro,txt_oferta,txt_ahorro,txt_precio_recomendado;
     private Button btn1, btn2, btn3;
     private ImageView imageView;
     private FirebaseAuth mAuth;
@@ -64,7 +69,9 @@ public class OrdenActivity extends AppCompatActivity {
     private String fecha,id_compra;
     private int tarjeta;
     private Spinner spinner_colores,spinner_tamaños,spinner_modelos;
+    private float costo_con_descuento;
     private String color_seleccionado,tamano_seleccionado,modelos_seleccionado;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,17 +87,23 @@ public class OrdenActivity extends AppCompatActivity {
         btn1 = (Button) findViewById(R.id.add_orden);
         btn2 = (Button) findViewById(R.id.remove_orden);
         btn3 = (Button) findViewById(R.id.añadir_orden);
+        oferta=(TextView) findViewById(R.id.precio_oferta);
+        ahorro=(TextView) findViewById(R.id.ahorro);
+        txt_oferta=(TextView)findViewById(R.id.txt_oferta);
+        txt_ahorro=(TextView)findViewById(R.id.txt_ahorro);
+        txt_precio_recomendado=(TextView)findViewById(R.id.txt_precio_recomendado);
         spinner_colores=(Spinner) findViewById(R.id.spinne_color_orden);
         spinner_tamaños=(Spinner) findViewById(R.id.spinne_tamaño_orden);
         spinner_modelos=(Spinner) findViewById(R.id.spinne_modelo_orden);
         if(p_recibido.getColores().size()>0){
-            ArrayList<String> array_colores=p_recibido.getColores();
-            ArrayAdapter<String> adapter_colores = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_colores);
+            ArrayList<String> array_colores=ordenar_array(p_recibido.getColores(),"Color");
+            ArrayAdapter<String> adapter_colores = new ArrayAdapter<String>(OrdenActivity.this, R.layout.spinner_texto, array_colores);
             spinner_colores.setAdapter(adapter_colores);
             spinner_colores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     color_seleccionado = adapterView.getItemAtPosition(i).toString();
+
                 }
 
                 @Override
@@ -103,8 +116,8 @@ public class OrdenActivity extends AppCompatActivity {
             spinner_colores.setVisibility(View.GONE);
         }
         if(p_recibido.getTamanos().size()>0){
-            ArrayList<String> array_tamanos=p_recibido.getTamanos();
-            ArrayAdapter<String> adapter_tamanos = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_tamanos);
+            ArrayList<String> array_tamanos=ordenar_array(p_recibido.getTamanos(),"Tamaño");
+            ArrayAdapter<String> adapter_tamanos = new ArrayAdapter<String>(OrdenActivity.this, R.layout.spinner_texto, array_tamanos);
             spinner_tamaños.setAdapter(adapter_tamanos);
             spinner_tamaños.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -122,8 +135,9 @@ public class OrdenActivity extends AppCompatActivity {
             spinner_tamaños.setVisibility(View.GONE);
         }
         if(p_recibido.getModelos().size()>0){
-            ArrayList<String> array_modelos=p_recibido.getModelos();
-            ArrayAdapter<String> adapter_modelos = new ArrayAdapter<String>(OrdenActivity.this, android.R.layout.simple_spinner_item, array_modelos);
+            ArrayList<String> array_modelos=ordenar_array(p_recibido.getModelos(),"Modelo");
+
+            ArrayAdapter<String> adapter_modelos = new ArrayAdapter<String>(OrdenActivity.this, R.layout.spinner_texto, array_modelos);
             spinner_modelos.setAdapter(adapter_modelos);
             spinner_modelos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -154,6 +168,18 @@ public class OrdenActivity extends AppCompatActivity {
         //viewPagerOn();
     }
 
+    private ArrayList<String> ordenar_array(ArrayList<String> arrayList, String valor){
+        ArrayList<String> temp_array=new ArrayList<>();
+        temp_array.addAll(arrayList);
+        arrayList.clear();
+        arrayList.add(valor);
+        arrayList.addAll(temp_array);
+
+        return arrayList;
+    }
+
+
+
 
 
     public void remove_contador(View view) {
@@ -176,11 +202,29 @@ public class OrdenActivity extends AppCompatActivity {
         txt4.setText(String.valueOf(contador));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void cargar_producto(Producto p) {//carga los datos del producto en el activity para vizualizar
         txt1.setText(p.getNombre_producto());
         String descripcion = p.getDescripcion();
         txt3.setText("$"+String.valueOf(p.getVenta_producto()));
         txt2.setText(descripcion);
+        oferta.setText("$"+p.getOferta());
+        float descuento=p.getVenta_producto()-p.getOferta();
+        costo_con_descuento=p.getVenta_producto()-descuento;
+        float descuento_porcentaje=((p.getVenta_producto()-p.getOferta())/p.getVenta_producto())*100;
+        String s = String.format("%.2f", descuento_porcentaje);
+
+        if(descuento_porcentaje==0 || p.getOferta()==0){
+            txt_precio_recomendado.setText("Costo: ");
+            oferta.setVisibility(View.GONE);
+            ahorro.setVisibility(View.GONE);
+            ahorro.setText("0");
+            txt_ahorro.setVisibility(View.GONE);
+            txt_oferta.setVisibility(View.GONE);
+            txt3.setBackground(this.getDrawable(R.drawable.fondo));
+        }
+
+        ahorro.setText("$"+descuento+"  "+"("+s+"%"+")");
 //        Glide.with(this).
 //                load(p.getFoto_producto())
 //                .centerCrop()
@@ -192,34 +236,95 @@ public class OrdenActivity extends AppCompatActivity {
 
     public void aceptar_orden(View view) {//Cargar pedido al usuario
         if (Integer.parseInt(txt4.getText().toString()) > 0) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Producto añadido al carrito");
-            builder.setPositiveButton("Pagar ahora", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    actualizar_usuario();
-                    Intent intent = new Intent(OrdenActivity.this, CarritoActivity.class);
-                    //intent.putExtra("id_pedido",value);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            builder.setNegativeButton("Seguir Comprando", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    value = UUID.randomUUID().toString();
-                    id = p_recibido.getId_producto();
-                    String estado = "Carrito";
-                    final int cantidad = Integer.parseInt(txt4.getText().toString());
-                    pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta,color_seleccionado,tamano_seleccionado,modelos_seleccionado);
-                    usuario.addPedido(value);
-                    databaseReference.child("Pedidos").child(value).setValue(pedidos);
-                    databaseReference.child("Usuarios").child(usuario.getId()).setValue(usuario);
-                    startActivity(new Intent(OrdenActivity.this,MainActivity.class));
-                    finish();
-                }
-            });
-            builder.create().show();
+            Log.e("Antes del if", String.valueOf(p_recibido.getVenta_producto()) );
+            if(p_recibido.getVenta_producto()!= p_recibido.getOferta() && p_recibido.getOferta()!=0){
+                p_recibido.setVenta_producto(costo_con_descuento);
+                Log.e("Despues del if", String.valueOf(p_recibido.getVenta_producto()) );
+            }
+            if(color_seleccionado.equals("Color")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Seleccione un color valido");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setNegativeButton("Regresar al catalogo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(OrdenActivity.this,MainActivity.class));
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }else if(color_seleccionado.equals("Tamaño")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Seleccione un tamaño valido");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setNegativeButton("Regresar al catalogo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(OrdenActivity.this,MainActivity.class));
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }else if(modelos_seleccionado.equals("Modelo")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Seleccione un modelo valido");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setNegativeButton("Regresar al catalogo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(OrdenActivity.this,MainActivity.class));
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Producto añadido al carrito");
+                builder.setPositiveButton("Pagar ahora", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        actualizar_usuario();
+                        Intent intent = new Intent(OrdenActivity.this, CarritoActivity.class);
+                        //intent.putExtra("id_pedido",value);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Seguir Comprando", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        value = UUID.randomUUID().toString();
+                        id = p_recibido.getId_producto();
+                        String estado = "Carrito";
+                        final int cantidad = Integer.parseInt(txt4.getText().toString());
+                        pedidos = new Pedidos(id, estado, cantidad,p_recibido.getVenta_producto(), currentUser.getUid(), "no asignado", "", "00:00",p_recibido.getNombre_producto(),p_recibido.getFoto_producto(),p_recibido.getDescripcion(),value,0,fecha,id_compra,tarjeta,color_seleccionado,tamano_seleccionado,modelos_seleccionado);
+                        usuario.addPedido(value);
+                        databaseReference.child("Pedidos").child(value).setValue(pedidos);
+                        databaseReference.child("Usuarios").child(usuario.getId()).setValue(usuario);
+                        startActivity(new Intent(OrdenActivity.this,MainActivity.class));
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }
+
+
+
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Cantidad no válida").setMessage("Por favor seleccione una cantidad válida");
@@ -259,6 +364,10 @@ public class OrdenActivity extends AppCompatActivity {
     }
 
     public void actualizar_usuario() {//generar nuevo usuario con el pedido seleccionado
+        if(p_recibido.getVenta_producto()!= p_recibido.getOferta() && p_recibido.getOferta()!=0){
+            p_recibido.setVenta_producto(costo_con_descuento);
+            Log.e("Despues del if", String.valueOf(p_recibido.getVenta_producto()) );
+        }
         value = UUID.randomUUID().toString();
         id = p_recibido.getId_producto();
         String estado = "Carrito";
@@ -319,24 +428,9 @@ public class OrdenActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.fav:
+                add_fav();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(OrdenActivity.this);
-                builder.setTitle("¿Desea añadir este producto de favoritos?");
-                builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                       add_fav();
-                        Toast.makeText(OrdenActivity.this, "Producto añadido a favoritos", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(OrdenActivity.this,MainActivity.class));
-                    }
-                });
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.create().show();
+                Toast.makeText(OrdenActivity.this, "Producto añadido a favoritos", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -1,119 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:padding="15dp"
-        android:orientation="horizontal"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/foto_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"/>
-        <TextView
-            android:id="@+id/user_name"
-            android:textSize="26dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nombre con apellidos"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:padding="5dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/fav_btn"
-            android:textSize="20dp"
-            android:padding="5dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Favoritos"
-            android:gravity=""
-            android:background="@color/white"/>
+            android:orientation="vertical">
+            <LinearLayout
+                android:padding="25dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/foto_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_round"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:padding="10dp"
+                    android:id="@+id/user_name"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre con apellidos"/>
+            </LinearLayout>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp"/>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_carrito_perfil"
-            android:textSize="20dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Carrito de compras"
-            android:gravity=""
-            android:background="@color/white"/>
+                <Button
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/edit_text_style_2"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:id="@+id/fav_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Favoritos"
+                    android:gravity="center" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
 
-        <Button
-            android:visibility="gone"
-            android:onClick="abre_forma_de_pago"
-            android:id="@+id/formas_de_pago"
-            android:textSize="20dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Formas de pago"
-            android:gravity=""
-            android:background="@color/white"/>
+                <Button
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/edit_text_style_2"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:id="@+id/btn_carrito_perfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Carrito de compras"
+                    android:gravity="center" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <Button
+                    android:visibility="gone"
+                    android:onClick="abre_forma_de_pago"
+                    android:id="@+id/formas_de_pago"
+                    android:textSize="20dp"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Formas de pago"
+                    android:gravity="center"
+                    android:background="@color/white"/>
 
 
 
-        <Button
+                <Button
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/edit_text_style_2"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:id="@+id/editar_perfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Editar perfil"
+                    android:gravity="center" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
 
-            android:id="@+id/editar_perfil"
-            android:textSize="20dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Editar perfil"
-            android:gravity="left"
-            android:background="@color/white"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/edit_text_style_2"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:id="@+id/boton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="cerrar sesión"
+                    android:gravity="center" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/edit_text_style_2"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:id="@+id/unete_a_nosotros"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Únete a nosotros"
+                    android:gravity="center" />
 
 
-        <Button
 
-            android:id="@+id/boton"
-            android:textSize="20dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="cerrar sesión"
-            android:gravity="left"
-            android:background="@color/white"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/unete_a_nosotros"
-            android:textSize="20dp"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Únete a nosotros"
-            android:gravity="left"
-            android:background="@color/white"/>
-
-    </LinearLayout>
+            <LinearLayout
+                android:padding="15dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imagen_claudia_logo"
+                    android:layout_gravity="center"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -53,6 +53,7 @@ public class UserFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private NotificationsViewModel notificationsViewModel;
+    private CircleImageView foto_logo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class UserFragment extends Fragment {
         currentUser=mAuth.getCurrentUser();
         databaseReference=database.getReference();
 
+        foto_logo=(CircleImageView)root.findViewById(R.id.imagen_claudia_logo);
         boton_config=(Button)root.findViewById(R.id.editar_perfil);
         cargar_datos();
         btn_forma_pago=(Button)root.findViewById(R.id.formas_de_pago);
@@ -179,7 +181,7 @@ public class UserFragment extends Fragment {
                             }
                             // Get new Instance ID token
                             String token = task.getResult().getToken();
-                            DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("token").child(currentUser.getUid());
+                            DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Usuarios/"+currentUser.getUid()).child("token");
                             reference.removeValue();
 
                         }
@@ -188,6 +190,7 @@ public class UserFragment extends Fragment {
     }
 
     public void cargar_datos(){
+        Glide.with(getActivity()).load("https://firebasestorage.googleapis.com/v0/b/clauzon.appspot.com/o/RECURSOS%2FCZON-LogoApp-01.jpg?alt=media&token=95aec94d-854e-42bd-b7c3-d7411656b32b").centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(foto_logo);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
             DatabaseReference referenceRepartidores= database.getReference("Usuarios/"+currentUser.getUid());

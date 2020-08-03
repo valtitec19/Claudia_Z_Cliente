@@ -61,6 +61,8 @@ public class Pedidos implements Serializable {
         this.modelo = modelo;
     }
 
+
+
     public String getProducto_id() {
         return producto_id;
     }

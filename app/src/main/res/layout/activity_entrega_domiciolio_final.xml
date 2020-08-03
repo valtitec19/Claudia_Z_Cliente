@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,6 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EntregaDomiciolioFinal">
+
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,6 +23,7 @@
             android:padding="15dp">
 
             <TextView
+                android:textColor="@color/white"
                 android:textSize="26dp"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_horizontal"
@@ -33,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textColor="@color/white"
                     android:id="@+id/productos_domicio_final"
                     android:layout_weight="2"
                     android:layout_width="wrap_content"
@@ -40,6 +45,7 @@
                     android:text="Productos"
                     android:textSize="20dp"/>
                 <TextView
+                    android:textColor="@color/white"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:id="@+id/costo_domicio_final"
@@ -59,10 +65,12 @@
                 android:layout_height="15dp"/>
 
             <RadioGroup
+                android:background="@drawable/botones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <RadioButton
+                    android:textColor="@color/white"
                     android:checked="true"
                     android:id="@+id/radio_button_tarjeta_domicio_final"
                     android:textSize="18dp"
@@ -73,6 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"/>
                 <RadioButton
+                    android:textColor="@color/white"
                     android:id="@+id/radio_butos_efectivo_domicio_final"
                     android:textSize="18dp"
                     android:text="Pago en efectivo"
@@ -80,19 +89,33 @@
                     android:layout_height="wrap_content"/>
             </RadioGroup>
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
+
             <TextView
+                android:textColor="@color/white"
                 android:padding="5dp"
                 android:textSize="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ayuda a nuestros repartidores a encontrarte!"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:hint="Describe la fachada de tu domicilio"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style">
 
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
+                    android:singleLine="true"
                     android:id="@+id/descripcion_fachada_domicio_final"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -113,6 +136,22 @@
 
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/claudia_z" />
+    </LinearLayout>
+
     <Button
 
         android:id="@+id/btn_entrega_domicio_final"
@@ -123,7 +162,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/botones"
         android:text="Aceptar"
         android:textSize="20dp"
         android:textColor="@android:color/white" />

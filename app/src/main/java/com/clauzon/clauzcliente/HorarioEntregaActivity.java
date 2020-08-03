@@ -225,54 +225,7 @@ public class HorarioEntregaActivity extends AppCompatActivity {
         tarjeta = (RadioButton) findViewById(R.id.radio_button_tarjeta);
         efectivo = (RadioButton) findViewById(R.id.radio_butos_efectivo);
         tarjeta.setChecked(true);
-//        ArrayAdapter<CharSequence> horario = ArrayAdapter.createFromResource(this, R.array.horario, android.R.layout.simple_spinner_item);
-//        spinner.setAdapter(horario);
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                hora = adapterView.getItemAtPosition(i).toString();
-//                databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            final Pedidos pedidos = snapshot.getValue(Pedidos.class);
-//                            if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
-//                                databaseReference.child("Usuarios/" + currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                        Usuario usuario = dataSnapshot.getValue(Usuario.class);
-//                                        DatabaseReference reference = database.getReference("Pedidos/" + pedidos.getId());
-//                                        pedidos.setDireccion_entrega(usuario.getDireccion_envio());
-//                                        pedidos.setHora_entrega(hora);
-//                                        reference.setValue(pedidos);
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-//                                lista.add(pedidos);
-//                            }
-//                        }
-//                        descrcipcion.setText("Entrega programada para " + fecha + " " + lista.get(0).getDireccion_entrega() + " a las " + hora);
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
 
         button = (Button) findViewById(R.id.btn_horario_entrega);
         button.setOnClickListener(new View.OnClickListener() {

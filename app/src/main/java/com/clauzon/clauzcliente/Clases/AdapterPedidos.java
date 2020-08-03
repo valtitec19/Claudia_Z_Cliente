@@ -170,6 +170,10 @@ public class AdapterPedidos extends RecyclerView.Adapter<HolderPedidos> implemen
         }
     }
 
+    public List<Pedidos> get_lista(){
+        return lista;
+    }
+
     public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
     }

@@ -11,6 +11,7 @@
     <color name="dotHome_active">#7AFFFFFF</color>
     <color name="active">#F0FFFFFF</color>
     <color name="rojo">#F0FF0000</color>
-    <color name="transparente">#00FF0000</color>
+    <color name="transparente">#000000</color>
+    <color name="black">#000000</color>
 
 </resources>

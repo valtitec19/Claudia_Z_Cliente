@@ -27,6 +27,7 @@ import com.clauzon.clauzcliente.Clases.AdapterPedidos2;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.FavActivity;
 import com.clauzon.clauzcliente.R;
+import com.clauzon.clauzcliente.VerPedidoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -72,6 +73,9 @@ public class PedidosFragment extends Fragment {
         adapterPedidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), VerPedidoActivity.class);
+                intent.putExtra("pedido",adapterPedidos.get_lista().get(recyclerView.getChildAdapterPosition(view)));
+                startActivity(intent);
 
             }
         });

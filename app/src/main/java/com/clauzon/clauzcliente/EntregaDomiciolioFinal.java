@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,8 +21,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +51,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
     String product = "";
     float cost;
     private String amount;
-    Pedidos pedidos;
+    private Pedidos pedidos_carrito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +62,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
         amount = (String) b.get("amount");
         Log.e("Primer recibido ", amount);
         firebaseON();
-        inicio_view();
+
         recuperda_pedidos();
 
         descripcion_fisica = (EditText) findViewById(R.id.descripcion_fachada_domicio_final);
@@ -76,7 +71,8 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
         descrcipcion = (TextView) findViewById(R.id.descripcion_domicio_final);
         tarjeta = (RadioButton) findViewById(R.id.radio_button_tarjeta_domicio_final);
         efectivo = (RadioButton) findViewById(R.id.radio_butos_efectivo_domicio_final);
-
+        button = (Button) findViewById(R.id.btn_entrega_domicio_final);
+        inicio_view();
     }
 
     public void firebaseON() {
@@ -89,12 +85,13 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
     public void inicio_view() {
 
 
-        button = (Button) findViewById(R.id.btn_entrega_domicio_final);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int temporal = pedidos.getDireccion_entrega().length();
-                String ciudad = pedidos.getDireccion_entrega().substring(temporal - 4, temporal);
+                Log.e("Direccion completa: ", pedidos_carrito.getDireccion_entrega() );
+                int temporal = pedidos_carrito.getDireccion_entrega().length();
+                String ciudad = pedidos_carrito.getDireccion_entrega().substring(temporal - 4, temporal);
                 Log.e("Ciudad ", ciudad );
                 if (efectivo.isChecked() && ciudad.equals("CDMX")) {
 
@@ -114,7 +111,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                                             final Pedidos pedidos = snapshot.getValue(Pedidos.class);
                                             if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
                                                 pedidos.setEstado("Pago pendiente (En efectivo)");
-                                                pedidos.setDescripcion("Punto de entrega: " + descripcion_fisica.getText().toString());
+                                                pedidos.setDireccion_entrega(pedidos.getDireccion_entrega()+" - "+descripcion_fisica.getText().toString());
                                                 DatabaseReference databaseReference2 = database.getReference();
                                                 databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
                                                 if (pedidos.getCosto_envio() == 120) {
@@ -186,8 +183,9 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    pedidos = snapshot.getValue(Pedidos.class);
+                    Pedidos pedidos = snapshot.getValue(Pedidos.class);
                     if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
+                        pedidos_carrito=pedidos;
                         lista.add(pedidos);
                     }
                 }
@@ -197,12 +195,25 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                 }
                 productos.setText(product);
                 costo.setText("$" + amount);
-                descrcipcion.setText("Entrega: " + lista.get(0).getDireccion_entrega());
+                //descrcipcion.setText("Entrega: " + lista.get(0).getDireccion_entrega());
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference.child("Usuarios/"+currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario usuario =snapshot.getValue(Usuario.class);
+                descrcipcion.setText("Entrega: "+usuario.getDireccion_envio());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,6 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -26,9 +28,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="Nombre completo">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/full_name"
                     android:layout_width="match_parent"
@@ -38,9 +44,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="Calle y No Interior">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/direccion1"
                     android:layout_width="match_parent"
@@ -50,9 +60,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="No. Exterior">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/direccion2"
                     android:layout_width="match_parent"
@@ -63,9 +77,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="Código postal">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/cpp"
                     android:layout_width="match_parent"
@@ -75,9 +93,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="Colonia">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/colonia"
                     android:layout_width="match_parent"
@@ -86,14 +108,19 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:padding="15dp"
+                    android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Estado/Ciudad"/>
                 <Spinner
+                    android:background="@drawable/botones"
                     android:id="@+id/spinner_ciudades"
                     android:padding="3dp"
                     android:layout_width="match_parent"
@@ -104,9 +131,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                android:background="@drawable/edit_text_style"
                 android:hint="Delegación/Municipio">
                 <EditText
+                    android:textColor="@color/white"
+                    android:padding="15dp"
                     android:singleLine="true"
                     android:id="@+id/delegacion"
                     android:layout_width="match_parent"
@@ -116,6 +147,7 @@
 
 
             <Spinner
+                android:background="@drawable/botones"
                 android:id="@+id/spinner_tiempo_envio"
                 android:padding="3dp"
                 android:layout_width="match_parent"
@@ -125,6 +157,7 @@
             </Spinner>
 
             <Button
+
                 android:id="@+id/btnAceptarDireccion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +166,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
+                android:background="@drawable/botones"
                 android:text="Aceptar"
                 android:textColor="@android:color/white" />
 

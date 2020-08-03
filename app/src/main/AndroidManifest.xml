@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,40 +19,42 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".VerPedidoActivity"></activity>
+
         <service
-            android:name="com.clauzon.clauzcliente.Servicios.FCM"
+            android:name=".Servicios.FCM"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name="com.clauzon.clauzcliente.EntregaDomiciolioFinal"/>
-        <activity android:name="com.clauzon.clauzcliente.EditarPerfilActivity" />
-        <activity android:name="com.clauzon.clauzcliente.GarantiasActivity" />
-        <activity android:name="com.clauzon.clauzcliente.AvisoPrivacidadActivity" />
-        <activity android:name="com.clauzon.clauzcliente.HorarioEntregaActivity" />
-        <activity android:name="com.clauzon.clauzcliente.EnvioDomicilioActivity" />
-        <activity android:name="com.clauzon.clauzcliente.EstacionesActivity" />
-        <activity android:name="com.clauzon.clauzcliente.LineasActivity" />
-        <activity android:name="com.clauzon.clauzcliente.FavActivity" />
-        <activity android:name="com.clauzon.clauzcliente.FormaPagoActivity" />
+        <activity android:name=".EntregaDomiciolioFinal" />
+        <activity android:name=".EditarPerfilActivity" />
+        <activity android:name=".GarantiasActivity" />
+        <activity android:name=".AvisoPrivacidadActivity" />
+        <activity android:name=".HorarioEntregaActivity" />
+        <activity android:name=".EnvioDomicilioActivity" />
+        <activity android:name=".EstacionesActivity" />
+        <activity android:name=".LineasActivity" />
+        <activity android:name=".FavActivity" />
+        <activity android:name=".FormaPagoActivity" />
         <activity
-            android:name="com.clauzon.clauzcliente.CarritoActivity"
+            android:name=".CarritoActivity"
             android:theme="@style/NoBar" />
-        <activity android:name="com.clauzon.clauzcliente.PagoActivity" />
-        <activity android:name="com.clauzon.clauzcliente.OrdenActivity" />
-        <activity android:name="com.clauzon.clauzcliente.LoginActivity">
+        <activity android:name=".PagoActivity" />
+        <activity android:name=".OrdenActivity" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.clauzon.clauzcliente.RegistroActivity" />
+        <activity android:name=".RegistroActivity" />
         <activity
-            android:name="com.clauzon.clauzcliente.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

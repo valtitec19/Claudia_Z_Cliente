@@ -1,5 +1,6 @@
 package com.clauzon.clauzcliente;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -51,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+//        try {
+//            Intent intent=getIntent();
+//            if(intent.getStringExtra("estacion")!=null && intent.getStringExtra("linea")!=null){
+//
+//            }
+//            navController.navigate(R.id.navigation_dashboard);
+//        }catch (Exception e){
+//
+//        }
 
 
     }

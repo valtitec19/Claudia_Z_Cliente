@@ -3,10 +3,13 @@ package com.clauzon.clauzcliente;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -93,6 +96,13 @@ public class PagoActivity extends AppCompatActivity {
                 .cvvRequired(true)
                 .postalCodeRequired(true)
                 .setup(PagoActivity.this);
+        Drawable image=(Drawable)getResources().getDrawable(R.drawable.botones);
+        cardForm.setBackground( image);
+
+        cardForm.getCardEditText().setTextColor(Color.WHITE);
+        cardForm.getCvvEditText().setTextColor(Color.WHITE);
+        cardForm.getPostalCodeEditText().setTextColor(Color.WHITE);
+        cardForm.getExpirationDateEditText().setTextColor(Color.WHITE);
         cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         buy.setOnClickListener(new View.OnClickListener() {
             @Override

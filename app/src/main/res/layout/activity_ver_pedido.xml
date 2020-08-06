@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Descripcion del pedido"
+        android:text="Descripción del pedido"
         android:textSize="26dp" />
 
     <ScrollView
@@ -40,6 +40,31 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="Entrega para: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/cliente_ver_pedido"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="Producto"
+                    android:textColor="@color/azul_click"
+                    android:textSize="20dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:padding="5dp"
-                    android:text="Descripcion:"
+                    android:text="Descripción:"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -222,6 +247,31 @@
                     android:textColor="@color/verde"
                     android:textSize="20dp"
                     android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="Tipo de envío: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/tipo_envio_ver_pedido"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="Producto"
+                    android:textColor="@color/azul_click"
+                    android:textSize="20dp" />
             </LinearLayout>
 
             <TextView

@@ -96,13 +96,13 @@ public class PagoActivity extends AppCompatActivity {
                 .cvvRequired(true)
                 .postalCodeRequired(true)
                 .setup(PagoActivity.this);
-        Drawable image=(Drawable)getResources().getDrawable(R.drawable.botones);
-        cardForm.setBackground( image);
-
-        cardForm.getCardEditText().setTextColor(Color.WHITE);
-        cardForm.getCvvEditText().setTextColor(Color.WHITE);
-        cardForm.getPostalCodeEditText().setTextColor(Color.WHITE);
-        cardForm.getExpirationDateEditText().setTextColor(Color.WHITE);
+//        Drawable image=(Drawable)getResources().getDrawable(R.drawable.botones);
+//        cardForm.setBackground( image);
+//
+//        cardForm.getCardEditText().setTextColor(Color.WHITE);
+//        cardForm.getCvvEditText().setTextColor(Color.WHITE);
+//        cardForm.getPostalCodeEditText().setTextColor(Color.WHITE);
+//        cardForm.getExpirationDateEditText().setTextColor(Color.WHITE);
         cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,15 +135,6 @@ public class PagoActivity extends AppCompatActivity {
         }
 
 
-//        //VALIDAMOS LOS CAMPOS DE TEXTO
-//        if (tarjetaNumero.equals("") || tarjetaNumero.length() < 16) {
-//            Toast.makeText(PagoActivity.this, "Ingresa un numero valido", Toast.LENGTH_SHORT).show();
-//        } else if (tarjetaFecha.equals("")) {
-//            Toast.makeText(PagoActivity.this, "Ingresa una fecha valida", Toast.LENGTH_SHORT).show();
-//        } else if (tarjetaCvv.equals("") || tarjetaCvv.length() < 3) {
-//            Toast.makeText(PagoActivity.this, "Ingresa un cvv valido", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(PagoActivity.this, "Tarjeta Agregada", Toast.LENGTH_SHORT).show();
 
         //SEPARAMOS EL MES Y LA FECHA
         Log.e("Fecha", tarjetaFecha.toString() );

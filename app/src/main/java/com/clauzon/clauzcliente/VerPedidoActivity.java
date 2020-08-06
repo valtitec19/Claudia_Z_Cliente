@@ -13,6 +13,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.clauzon.clauzcliente.Clases.Pedidos;
 import com.clauzon.clauzcliente.Clases.Producto;
 import com.clauzon.clauzcliente.Clases.Repartidor;
+import com.clauzon.clauzcliente.Clases.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,11 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class VerPedidoActivity extends AppCompatActivity {
-    private TextView producto,descripcion,direccion,repartidor,txt_repartidor,fecha,hora,txt_hora,cantidad,costo,estado,no_seguimiento,txt_descripcion,txt_direccion;
+    private TextView producto,descripcion,direccion,repartidor,txt_repartidor,fecha,hora,txt_hora,cantidad,costo,estado,no_seguimiento,txt_descripcion,txt_direccion,txt_cliente,txt_tipo_envio;
     private CircleImageView circleImageView;
     private Pedidos recibido;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currenUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,21 @@ public class VerPedidoActivity extends AppCompatActivity {
 
     private void cargar_pedido(Pedidos recibido) {
         producto.setText(recibido.getNombre());
+        databaseReference.child("Usuarios/"+currenUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario usuario =snapshot.getValue(Usuario.class);
+                txt_cliente.setText(usuario.getNombre() +" "+usuario.getApellidos());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         if(recibido.getCosto_envio()==0){
+            txt_tipo_envio.setText("Entrega personal sin costo");
             txt_descripcion.setText("Lugar de entrega");
             txt_direccion.setText("Estación: ");
             descripcion.setText(recibido.getDescripcion());
@@ -54,6 +73,15 @@ public class VerPedidoActivity extends AppCompatActivity {
                 producto.setText(producto.getText().toString()+" - Modelo: "+recibido.getModelo());
             }
         }else {
+            if(recibido.getCosto_envio()==150){
+                txt_tipo_envio.setText("CDMX Al día diguiente ($150)");
+            }
+            if(recibido.getCosto_envio()==120){
+                txt_tipo_envio.setText("Correos de México ($120)");
+            }
+            if(recibido.getCosto_envio()==250){
+                txt_tipo_envio.setText("FedEx  ($250)");
+            }
             descripcion.setText("");
             if(recibido.getColor()!=null && !recibido.getColor().equals("")){
                 descripcion.setText(descripcion.getText().toString()+ "  - Color: "+recibido.getColor());
@@ -132,8 +160,12 @@ public class VerPedidoActivity extends AppCompatActivity {
         txt_descripcion=(TextView)findViewById(R.id.txt_descripcion);
         txt_direccion=(TextView)findViewById(R.id.txt_direccion);
         circleImageView=(CircleImageView)findViewById(R.id.imageView_pedido_final);
+        txt_cliente=(TextView)findViewById(R.id.cliente_ver_pedido);
+        txt_tipo_envio=(TextView)findViewById(R.id.tipo_envio_ver_pedido);
         database=FirebaseDatabase.getInstance();
         databaseReference=database.getReference();
+        mAuth=FirebaseAuth.getInstance();
+        currenUser=mAuth.getCurrentUser();
     }
 
     public void Aceptar(View view) {

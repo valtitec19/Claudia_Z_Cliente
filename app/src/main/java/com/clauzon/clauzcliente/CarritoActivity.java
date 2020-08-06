@@ -316,7 +316,7 @@ public class CarritoActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CarritoActivity.this);
 
-        builder.setTitle("Eliga tiempo de envío");
+        builder.setTitle("Elija tiempo de envío");
 
         builder.setCancelable(false);
 

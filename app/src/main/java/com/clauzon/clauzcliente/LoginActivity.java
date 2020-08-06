@@ -110,11 +110,15 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                                 Repartidor repartidor = ds.getValue(Repartidor.class);
-                                                if (repartidor.getCorreo().equals(txt_correo.getText().toString())) {
-                                                    Toast.makeText(LoginActivity.this, "Este correo pertenece a una cuenta de Repartidor", Toast.LENGTH_SHORT).show();
-                                                    FirebaseAuth.getInstance().signOut();
-                                                    progressBar.setVisibility(View.GONE);
-                                                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                                try {
+                                                    if (repartidor.getCorreo().equals(txt_correo.getText().toString())) {
+                                                        Toast.makeText(LoginActivity.this, "Este correo pertenece a una cuenta de Repartidor", Toast.LENGTH_SHORT).show();
+                                                        FirebaseAuth.getInstance().signOut();
+                                                        progressBar.setVisibility(View.GONE);
+                                                        startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                                    }
+                                                }catch (Exception e){
+
                                                 }
                                             }
                                         }
@@ -176,22 +180,26 @@ public class LoginActivity extends AppCompatActivity {
 
     public void olvide_password(View view) {
         if(isValidEmail(txt_correo.getText().toString())){
-            databaseReference.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child("Usuarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot ds : snapshot.getChildren()){
                         Usuario usuario = ds.getValue(Usuario.class);
-                        if(usuario.getCorreo().equals(txt_correo.getText().toString())){
-                            mAuth.sendPasswordResetEmail(txt_correo.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(LoginActivity.this, "Se envío un enlace para restablecer tu contraseña al correo que registraste.", Toast.LENGTH_SHORT).show();
+                        try {
+                            if(usuario.getCorreo().equals(txt_correo.getText().toString())){
+                                mAuth.sendPasswordResetEmail(txt_correo.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(LoginActivity.this, "Se envío un enlace para restablecer tu contraseña al correo que registraste.", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-                        }else {
-                            Toast.makeText(LoginActivity.this, "El correo no existe", Toast.LENGTH_SHORT).show();
+                                });
+                            }else {
+                                Toast.makeText(LoginActivity.this, "El correo no existe", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e){
+
                         }
                     }
                 }

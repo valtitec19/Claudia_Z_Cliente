@@ -157,32 +157,6 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapterHoras);
 
-
-
-
-//        databaseReference.child("Rutas").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot ds : dataSnapshot.getChildren()){
-//                    Ruta ruta=ds.getValue(Ruta.class);
-//                    for(int i = 0; i<ruta.getEstaciones().size(); i++){
-//                    if(ruta.getEstaciones().get(i).getNombre().equals(estacion)){
-//                        Log.e("Estacion correcta", "" );
-//                        if(linea.equals(ruta.getEstaciones().get(i).getLinea())){
-//                            Log.e("Nueva hora", "" );
-//                            adapterHoras.add_lista(ruta.getEstaciones().get(i).getHora());
-//                        }
-//
-//                    }
-//                }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -194,34 +168,14 @@ public class HorarioEntregaActivity extends AppCompatActivity {
         finish();
     }
 
-    //metodo para resetear repartidor y hora de entrega en caso de no conluir el pedido
-//    public void reset_pedido(){
-//        databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot ds : snapshot.getChildren()){
-//                    Pedidos pedidos = ds.getValue(Pedidos.class);
-//                    if(pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")){
-//
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+
 
     public void inicio_view() {
-//        reloj=(RadioButton) findViewById(R.id.radio_button_reloj);
-//        torniquetes=(RadioButton) findViewById(R.id.radio_butos_torniquetes);
+
         productos = (TextView) findViewById(R.id.productos_final_entrega);
         costo = (TextView) findViewById(R.id.costo_final_entrefa);
         descrcipcion = (TextView) findViewById(R.id.descripcion_final);
         button = (Button) findViewById(R.id.btn_horario_entrega);
-//        spinner = (Spinner) findViewById(R.id.spinner_hora_entrega_final);
         tarjeta = (RadioButton) findViewById(R.id.radio_button_tarjeta);
         efectivo = (RadioButton) findViewById(R.id.radio_butos_efectivo);
         tarjeta.setChecked(true);
@@ -295,8 +249,14 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                                                             for(DataSnapshot ds : dataSnapshot.getChildren()){
                                                                 Producto producto=ds.getValue(Producto.class);
                                                                 if(producto.getId_producto().equals(pedidos.getProducto_id())){
-                                                                    String mensaje=producto.getNombre_producto()+", "+pedidos.getDireccion_entrega()+", "+pedidos.getFecha()+", "+pedidos.getHora_entrega()+"\n"
-                                                                            +"Telefono de contacto: "+usuario.getTelefono()+"\n"+"Costo: "+costo.getText().toString()+", "+pedidos.getCantidad()+" Piezas";
+                                                                    String mensaje="";
+                                                                    if(pedidos.getCantidad()>1){
+                                                                        mensaje=producto.getNombre_producto()+", "+pedidos.getDireccion_entrega()+", "+pedidos.getFecha()+", "+pedidos.getHora_entrega()+"\n"
+                                                                                +"Telefono de contacto: "+usuario.getTelefono()+"\n"+"Costo: "+costo.getText().toString()+", "+pedidos.getCantidad()+" Productos";
+                                                                    }else {
+                                                                        mensaje=producto.getNombre_producto()+", "+pedidos.getDireccion_entrega()+", "+pedidos.getFecha()+", "+pedidos.getHora_entrega()+"\n"
+                                                                                +"Telefono de contacto: "+usuario.getTelefono()+"\n"+"Costo: "+costo.getText().toString()+", "+pedidos.getCantidad()+" Producto";
+                                                                    }
 
                                                                     AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this,R.style.AlertDialogStyle);
                                                                     builder.setTitle("PEDIDO REALIZADO (PAGO PENDIENTE)");
@@ -365,47 +325,49 @@ public class HorarioEntregaActivity extends AppCompatActivity {
 
                 } else if (tarjeta.isChecked()) {
 
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(HorarioEntregaActivity.this,R.style.AlertDialogStyle);
-//                    builder.setTitle("Pago con tarjeta no disponible");
-//                    builder.setMessage("¡Espera esta opción muy pronto!");
-//                    builder.setCancelable(false);
-//                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            efectivo.setChecked(true);
-//                            tarjeta.setChecked(false);
-//
-//                        }
-//                    });
-//                    builder.create().show();
-
-                    double temp= Float.parseFloat(amount)*0.97;
-                    amount=String.valueOf(temp);
                     databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Pedidos pedidos = snapshot.getValue(Pedidos.class);
+                                final Pedidos pedidos = snapshot.getValue(Pedidos.class);
                                 if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
-//                                    pedidos.setDescripcion("Punto de entrega " + descripcion_fisica.getText().toString());
-//                                    if(pedidos.getCosto_envio()==0){
-//                                        pedidos.setHora_entrega(hora);
-//                                    }else{
-////                                        pedidos.setHora_entrega("00:00");
-//                                    }
-                                    pedidos.setFecha(fecha);
-                                    pedidos.setDescripcion("Área de taquillas");
-//                                    if(reloj.isChecked()){
-//                                        pedidos.setDescripcion(reloj.getText().toString());
-//                                    }else {
-//                                        pedidos.setDescripcion(torniquetes.getText().toString());
-//                                    }
-                                    DatabaseReference databaseReference2 = database.getReference();
-                                    databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
+
+
                                     if(pedidos.getHora_entrega().equals("00:00")){
-                                        Toast.makeText(HorarioEntregaActivity.this, "Elija una hora de entrega", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(HorarioEntregaActivity.this, "Elija un horario de entrega", Toast.LENGTH_SHORT).show();
                                     }else {
-                                        startActivity(new Intent(HorarioEntregaActivity.this, PagoActivity.class).putExtra("amount", amount));
+                                        if(pedidos.getHora_entrega().equals("00:00")){
+                                            Toast.makeText(HorarioEntregaActivity.this, "Elija un horario de entrega", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            double temp= Float.parseFloat(amount)*0.97;
+                                            amount=String.valueOf(temp);
+                                            databaseReference.child("Pedidos").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                        Pedidos pedidos = snapshot.getValue(Pedidos.class);
+                                                        if (pedidos.getUsuario_id().equals(currentUser.getUid()) && pedidos.getEstado().equals("Carrito")) {
+
+                                                            pedidos.setFecha(fecha);
+                                                            pedidos.setDescripcion("Área de taquillas");
+                                                            DatabaseReference databaseReference2 = database.getReference();
+                                                            databaseReference2.child("Pedidos/" + pedidos.getId()).setValue(pedidos);
+                                                            if(pedidos.getHora_entrega().equals("00:00")){
+                                                                Toast.makeText(HorarioEntregaActivity.this, "Elija una hora de entrega", Toast.LENGTH_SHORT).show();
+                                                            }else {
+                                                                startActivity(new Intent(HorarioEntregaActivity.this, PagoActivity.class).putExtra("amount", amount));
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
+
                                     }
                                 }
                             }
@@ -418,8 +380,9 @@ public class HorarioEntregaActivity extends AppCompatActivity {
                     });
 
                 }
-
             }
+
+
         });
     }
 

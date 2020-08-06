@@ -145,7 +145,7 @@ public class RegistroActivity extends AppCompatActivity {
                                     });
                                     builder.create().show();
                                 } else {
-                                    correo_existente(email);
+                                    //correo_existente(email);
                                     password=txt_pass_confirm.getText().toString();
                                     progressBar.setVisibility(View.VISIBLE);
                                     mAuth.createUserWithEmailAndPassword(email, password)
@@ -157,24 +157,35 @@ public class RegistroActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if(task.isSuccessful()){
-                                                                    Toast.makeText(RegistroActivity.this, "Hemos enviado un correo de verificacion a tu banjeda de entrada", Toast.LENGTH_SHORT).show();
+                                                                    //Toast.makeText(RegistroActivity.this, "Hemos enviado un correo de verificacion a tu banjeda de entrada", Toast.LENGTH_SHORT).show();
                                                                     progressBar.setVisibility(View.GONE);
                                                                     FirebaseUser currenUser=mAuth.getCurrentUser();
                                                                     id=currenUser.getUid();
                                                                     usuario= new Usuario(nombre,apellido,email,telefono,id,"","",url_foto,pedidos,favoritos,direccion_envio,multas,"");
                                                                     DatabaseReference referenceRepartidores= database.getReference("Usuarios/"+id);
                                                                     referenceRepartidores.setValue(usuario);
-                                                                    Intent intent=getIntent();//new Intent(RegistroActivity.this, LoginActivity.class);
-                                                                    intent.putExtra("user",usuario);
-                                                                    startActivity(intent);
-                                                                    nextActivity();
+
+                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(RegistroActivity.this);
+                                                                    builder.setTitle("¡Registro exitoso!").setMessage("Hemos enviado un link de verificación a tu correo, por favor haz click sobre el para verificar tu cuenta, de lo contrario no podras ingresar.");
+                                                                    builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            Intent intent=getIntent();//new Intent(RegistroActivity.this, LoginActivity.class);
+                                                                            intent.putExtra("user",usuario);
+                                                                            startActivity(intent);
+                                                                            nextActivity();
+                                                                        }
+                                                                    });
+                                                                    builder.setCancelable(false);
+                                                                    builder.create().show();
+
                                                                 }
                                                             }
                                                         });
 
                                                     } else {
                                                         progressBar.setVisibility(View.GONE);
-                                                        Toast.makeText(RegistroActivity.this, "Error de registro", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(RegistroActivity.this, "Error de registro intente con otro correo", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
@@ -209,9 +220,13 @@ public class RegistroActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Usuario usuario = ds.getValue(Usuario.class);
-                    if(usuario.getCorreo().equals(correo_test)){
-                        Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a otro cliente", Toast.LENGTH_SHORT).show();
-                        txt_correo.setError("Correo existente");
+                    try {
+                        if(usuario.getCorreo().equals(correo_test)){
+                            Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a otro cliente", Toast.LENGTH_SHORT).show();
+                            txt_correo.setError("Correo existente");
+                        }
+                    }catch (Exception e){
+
                     }
                 }
             }
@@ -226,9 +241,13 @@ public class RegistroActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
                     Repartidor repartidor = ds.getValue(Repartidor.class);
-                    if(repartidor.getCorreo().equals(correo_test)){
-                        Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a una cuenta de repartidor", Toast.LENGTH_SHORT).show();}
-                    txt_correo.setError("Correo existente");
+                    try {
+                        if(repartidor.getCorreo().equals(correo_test)){
+                            Toast.makeText(RegistroActivity.this, "El correo que ingresó se encuentra asociado a una cuenta de repartidor", Toast.LENGTH_SHORT).show();}
+                        txt_correo.setError("Correo existente");
+                    }catch (Exception e){
+
+                    }
                 }
             }
 

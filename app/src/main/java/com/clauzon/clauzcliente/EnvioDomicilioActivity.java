@@ -169,7 +169,7 @@ public class EnvioDomicilioActivity extends AppCompatActivity {
                 builder.show();
 
             }else {
-                full_direccion = nombre + " ," + direccion1 + " " + direccion2 + " " + cpp + " , " + delegacion + ", " + ciudad_seleccionada;
+                full_direccion = nombre + ", " + direccion1 + " " + direccion2 + " " + cpp + ", " + delegacion + ", " + ciudad_seleccionada;
                 AlertDialog.Builder builder = new AlertDialog.Builder(EnvioDomicilioActivity.this);
                 builder.create();
                 builder.setTitle("Confirmar direccion de envio");

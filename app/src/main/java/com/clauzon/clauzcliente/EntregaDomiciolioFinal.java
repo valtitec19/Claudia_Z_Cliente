@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class EntregaDomiciolioFinal extends AppCompatActivity {
 
     private FirebaseDatabase database;
@@ -52,6 +54,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
     float cost;
     private String amount;
     private Pedidos pedidos_carrito;
+    private CircleImageView logo_entrega_domicilio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
         tarjeta = (RadioButton) findViewById(R.id.radio_button_tarjeta_domicio_final);
         efectivo = (RadioButton) findViewById(R.id.radio_butos_efectivo_domicio_final);
         button = (Button) findViewById(R.id.btn_entrega_domicio_final);
+        logo_entrega_domicilio=(CircleImageView)findViewById(R.id.logo_entrega_domicilio);
         inicio_view();
     }
 
@@ -99,8 +103,8 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
                         descripcion_fisica.setError("Campo obligatorio");
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(EntregaDomiciolioFinal.this);
-                        builder.setTitle("Descripcion del pedido");
-                        builder.setMessage(descrcipcion.getText().toString() + " Entrega: " + descripcion_fisica.getText().toString());
+                        builder.setTitle("Descripción del pedido");
+                        builder.setMessage(descrcipcion.getText().toString() + ", "+ descripcion_fisica.getText().toString());
                         builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -209,7 +213,7 @@ public class EntregaDomiciolioFinal extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Usuario usuario =snapshot.getValue(Usuario.class);
-                descrcipcion.setText("Entrega: "+usuario.getDireccion_envio());
+                descrcipcion.setText("Detos del pedido: "+usuario.getDireccion_envio());
             }
 
             @Override
